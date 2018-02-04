@@ -7,18 +7,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="google-site-verification" content="" />
   
-  <title>惜凡</title>
+  <title>解决axios post传递参数为空</title>
   <meta name="author" content="xmfaly">
-  <meta name="description" content="让我帮你百度一下很经典的小trick,用jqury重写了一下。
-功能当访问该页面是判断是否带参数
-
-带参数就调用动画模拟输入搜索框并打开百度进行搜索。
-不带参数就显示生成链接界面,点击生成链接可生成带参数的链接。
-
-licenseMIT">
+  <meta name="description" content="以前都是用 vue resource，因为官方推荐使用axios，就尝试了一下。但发现使用post方法传递的数据后端接受不到，仔细阅读文档发现自己并没有用错。最后网上找到了答案1234567import qs from &amp;apos;qs&amp;apos;;...axios.post(&amp;apos;post.">
   
   
-  
+  <meta property="og:title" content="解决axios post传递参数为空"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:site_name" content="惜凡"/>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
@@ -44,12 +38,12 @@ licenseMIT">
     <div class="container">
       
 
-  <article class="standard page">
+  <article class="standard post">
     <div class="title">
       
   
     <h1 class="page-title center">
-        
+        解决axios post传递参数为空
     </h1>
   
 
@@ -57,12 +51,12 @@ licenseMIT">
     </div>
     <div class="meta center">
       
-<time datetime="2018-02-04T08:57:29.246Z">
+<time datetime="2017-12-23T15:08:16.000Z">
 <svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
     <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
   </svg>
   &nbsp;
-  2018-02-04
+  2017-12-23
 </time>
 
 
@@ -70,19 +64,23 @@ licenseMIT">
 
 
 
+    
+    &nbsp;
+    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <circle cx="24" cy="8" r="2"></circle>
+      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
+    </svg>
+    &nbsp;
+    <a href="/tags/javascript/">javascript</a>
+
 
     </div>
     <hr>
     <div class="picture-container">
       
     </div>
-    <h2 id="让我帮你百度一下"><a href="#让我帮你百度一下" class="headerlink" title="让我帮你百度一下"></a>让我帮你百度一下</h2><p>很经典的小trick,用jqury重写了一下。</p>
-<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>当访问该页面是判断是否带参数</p>
-<ul>
-<li>带参数就调用动画模拟输入搜索框并打开<a href="https://www.baidu.com" target="_blank" rel="noopener">百度</a><br>进行搜索。</li>
-<li>不带参数就显示生成链接界面,点击生成链接可生成带参数的链接。</li>
-</ul>
-<h3 id="license"><a href="#license" class="headerlink" title="license"></a>license</h3><p><a href="/LICENSE">MIT</a>  </p>
+    <p>以前都是用 vue resource，因为官方推荐使用axios，就尝试了一下。但发现使用post方法传递的数据后端接受不到，仔细阅读文档发现自己并没有用错。<br>最后网上找到了答案<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import qs from &apos;qs&apos;;</span><br><span class="line">...</span><br><span class="line">axios.post(&apos;post.php&apos;, qs.stringify(&#123;</span><br><span class="line">    a: &apos;1&apos;</span><br><span class="line">&#125;))</span><br><span class="line">.then( ... )</span><br><span class="line">.catch( ... );</span><br></pre></td></tr></table></figure></p>
+<p>原因是axios默认发送数据时，数据格式是Request Payload，而并非我们常用的Form Data格式，后端未必能正常获取到，所以在发送之前，需要使用qs模块对其进行处理。</p>
 
 
   </article>

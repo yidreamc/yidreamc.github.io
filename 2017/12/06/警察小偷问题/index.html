@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  
+  <title>警察小偷问题</title>
+  <meta name="author" content="xmfaly">
+  <meta name="description" content="警察和小偷需要跑完200米距离，但两个人之间用一个3米的手铐铐住，请实现一个模型，用来描述警察和小偷跑步的情况。（1）使用线程表现无序性。（2）使用ncurse表现裕兴界面。这是一个基本的生产者消费者模型。等待的条件是两人之间的距离不要超过3米。换句话说小偷在跑之前要判断是否小偷比警察的距离多3，如">
+  
+  
+  <meta property="og:title" content="警察小偷问题"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="惜凡"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/atom.xml" title="惜凡" type="application/atom+xml">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="behind">
+      <a href="/" class="back black-color">
+        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M2 30 L30 2 M30 30 L2 2"></path>
+        </svg>
+      </a>
+      <div class="description">
+        &nbsp;
+      </div>
+    </div>
+    <div class="container">
+      
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        警察小偷问题
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      
+<time datetime="2017-12-07T03:01:02.000Z">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2017-12-06
+</time>
+
+
+
+
+
+
+
+    </div>
+    <hr>
+    <div class="picture-container">
+      
+    </div>
+    <p>警察和小偷需要跑完200米距离，但两个人之间用一个3米的手铐铐住，请实现一个模型，用来描述警察和小偷跑步的情况。<br>（1）使用线程表现无序性。<br>（2）使用ncurse表现裕兴界面。<br>这是一个基本的生产者消费者模型。等待的条件是两人之间的距离不要超过3米。换句话说小偷在跑之前要判断是否小偷比警察的距离多3，如果是那小偷就不能再跑，就要等待警察进程跑。警察进程同样的道理。</p>
+<p>完整代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;			</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;time.h&gt;</span><br><span class="line">#include &lt;curses.h&gt;</span><br><span class="line">#include &quot;pthread.h&quot;</span><br><span class="line"></span><br><span class="line">//警察和小偷之间的距离</span><br><span class="line">#define DISTANCE 3</span><br><span class="line">//警察纵坐标</span><br><span class="line">#define PY 10</span><br><span class="line"></span><br><span class="line">//小偷纵坐标</span><br><span class="line">#define TY 12</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">struct prodcons</span><br><span class="line">&#123;</span><br><span class="line">	pthread_mutex_t lock;</span><br><span class="line">	int polPos,thiefPos;</span><br><span class="line">	pthread_cond_t notempty;</span><br><span class="line">	pthread_cond_t notfull;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct prodcons buffer;</span><br><span class="line"></span><br><span class="line">void init(struct prodcons *b)</span><br><span class="line">&#123;</span><br><span class="line">	pthread_mutex_init(&amp;b-&gt;lock,NULL);</span><br><span class="line">	pthread_cond_init(&amp;b-&gt;notempty,NULL);</span><br><span class="line">	pthread_cond_init(&amp;b-&gt;notfull,NULL);</span><br><span class="line">	b-&gt;polPos=0;</span><br><span class="line">	b-&gt;thiefPos=0;</span><br><span class="line"></span><br><span class="line">	//init ncurses</span><br><span class="line">	initscr();</span><br><span class="line">	crmode();</span><br><span class="line">	noecho();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void prun(struct prodcons *b)</span><br><span class="line">&#123;</span><br><span class="line">	pthread_mutex_lock(&amp;b-&gt;lock);</span><br><span class="line">	while(b-&gt;polPos - b-&gt;thiefPos &gt;= DISTANCE)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;wait for t run\n&quot;);</span><br><span class="line">		pthread_cond_wait(&amp;b-&gt;notfull,&amp;b-&gt;lock);</span><br><span class="line">	&#125;</span><br><span class="line">	b-&gt;polPos++;</span><br><span class="line"></span><br><span class="line">	clear();</span><br><span class="line">	mvaddch(PY,b-&gt;polPos,&apos;P&apos;);</span><br><span class="line">	mvaddch(TY,b-&gt;thiefPos,&apos;T&apos;);</span><br><span class="line">	sleep(1);</span><br><span class="line">	refresh();</span><br><span class="line"></span><br><span class="line">	if(b-&gt;polPos == 200)&#123;</span><br><span class="line">		printf(&quot;p run over\n&quot;);</span><br><span class="line">		exit(0);</span><br><span class="line">	&#125;</span><br><span class="line">	pthread_cond_signal(&amp;b-&gt;notempty);</span><br><span class="line">	pthread_mutex_unlock(&amp;b-&gt;lock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void trun(struct prodcons *b)</span><br><span class="line">&#123;</span><br><span class="line">	pthread_mutex_lock(&amp;b-&gt;lock);</span><br><span class="line">	while( b-&gt;thiefPos -  b-&gt;polPos &gt;= DISTANCE)</span><br><span class="line">	&#123;</span><br><span class="line">	  printf(&quot;wait for p run\n&quot;);</span><br><span class="line">	  pthread_cond_wait(&amp;b-&gt;notempty,&amp;b-&gt;lock);</span><br><span class="line">	&#125;</span><br><span class="line">	b-&gt;thiefPos++;</span><br><span class="line"></span><br><span class="line">	clear();</span><br><span class="line">	mvaddch(TY,b-&gt;thiefPos,&apos;T&apos;);</span><br><span class="line">	mvaddch(PY,b-&gt;polPos,&apos;P&apos;);</span><br><span class="line"></span><br><span class="line">	clrtoeol();</span><br><span class="line">	sleep(1);</span><br><span class="line">	refresh();</span><br><span class="line"></span><br><span class="line">	//printf(&quot;t poistion is %d\n&quot;, b-&gt;thiefPos);</span><br><span class="line">	if(b-&gt;thiefPos == 200)&#123;</span><br><span class="line">		printf(&quot;p run over\n&quot;);</span><br><span class="line">		exit(0);</span><br><span class="line">	&#125;</span><br><span class="line">	pthread_cond_signal(&amp;b-&gt;notfull);</span><br><span class="line">	pthread_mutex_unlock(&amp;b-&gt;lock);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void * p()</span><br><span class="line">&#123;</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		prun(&amp;buffer);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	return NULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void * t()</span><br><span class="line">&#123;</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		trun(&amp;buffer);</span><br><span class="line">	&#125;</span><br><span class="line">	return NULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(void)</span><br><span class="line">&#123;</span><br><span class="line">	pthread_t th_a,th_b;			</span><br><span class="line">	void *retval;</span><br><span class="line">	init(&amp;buffer);</span><br><span class="line">	pthread_create(&amp;th_a,NULL,p,NULL);</span><br><span class="line">	pthread_create(&amp;th_b,NULL,t,NULL);</span><br><span class="line">	pthread_join(th_a,&amp;retval);</span><br><span class="line">	pthread_join(th_b,&amp;retval);</span><br><span class="line">	endwin();</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+
+  </article>
+  </script>
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>

@@ -7,18 +7,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="google-site-verification" content="" />
   
-  <title>惜凡</title>
+  <title>Nginx反向代理尝试</title>
   <meta name="author" content="xmfaly">
-  <meta name="description" content="让我帮你百度一下很经典的小trick,用jqury重写了一下。
-功能当访问该页面是判断是否带参数
-
-带参数就调用动画模拟输入搜索框并打开百度进行搜索。
-不带参数就显示生成链接界面,点击生成链接可生成带参数的链接。
-
-licenseMIT">
+  <meta name="description" content="和我一起做一个项目的前端小伙伴需要一个https的接口，后端是java做的，因为某些原因不能直接在java项目上配置https，最后想到用反向代理来解决这个问题。用户访问代理的服务器，然后由代理服务器转发给后台，并转发结构给用户。我在代理服务器上配置https就解决了接口https的需求。Nginx">
   
   
-  
+  <meta property="og:title" content="Nginx反向代理尝试"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:site_name" content="惜凡"/>
   <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
@@ -44,12 +38,12 @@ licenseMIT">
     <div class="container">
       
 
-  <article class="standard page">
+  <article class="standard post">
     <div class="title">
       
   
     <h1 class="page-title center">
-        
+        Nginx反向代理尝试
     </h1>
   
 
@@ -57,12 +51,12 @@ licenseMIT">
     </div>
     <div class="meta center">
       
-<time datetime="2018-02-04T08:57:29.246Z">
+<time datetime="2017-11-10T20:19:12.000Z">
 <svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
     <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
   </svg>
   &nbsp;
-  2018-02-04
+  2017-11-10
 </time>
 
 
@@ -76,13 +70,8 @@ licenseMIT">
     <div class="picture-container">
       
     </div>
-    <h2 id="让我帮你百度一下"><a href="#让我帮你百度一下" class="headerlink" title="让我帮你百度一下"></a>让我帮你百度一下</h2><p>很经典的小trick,用jqury重写了一下。</p>
-<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>当访问该页面是判断是否带参数</p>
-<ul>
-<li>带参数就调用动画模拟输入搜索框并打开<a href="https://www.baidu.com" target="_blank" rel="noopener">百度</a><br>进行搜索。</li>
-<li>不带参数就显示生成链接界面,点击生成链接可生成带参数的链接。</li>
-</ul>
-<h3 id="license"><a href="#license" class="headerlink" title="license"></a>license</h3><p><a href="/LICENSE">MIT</a>  </p>
+    <p>和我一起做一个项目的前端小伙伴需要一个https的接口，后端是java做的，因为某些原因不能直接在java项目上配置https，最后想到用反向代理来解决这个问题。<br>用户访问代理的服务器，然后由代理服务器转发给后台，并转发结构给用户。我在代理服务器上配置https就解决了接口https的需求。<br>Nginx配置反向代理很简单<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /api&#123;</span><br><span class="line">    proxy_pass http://127.0.0.1:8080/api ;</span><br><span class="line">    proxy_redirect off;</span><br><span class="line">    proxy_set_header Host $host;</span><br><span class="line">    proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>只需要这样就可以把访问服务器的 <code>/api</code>请求全部转发到 <code>http://127.0.0.1:8080/api</code></p>
 
 
   </article>
