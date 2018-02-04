@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  
+  <title>使用poi读写excel</title>
+  <meta name="author" content="xmfaly">
+  <meta name="description" content="首先了解以下excel文件怎么和poi中的组件对应起来的。　　
+
+一个Excel文件对应于一个Workbook对象
+一个Workbook可以有多个Sheet对象
+一个Sheet对象由多个Row对象组成
+一个Row对象是由多个Cell对象组成 
+
+基于以上几条，如果想对excel文件进行读写的话就要
+">
+  
+  
+  <meta property="og:title" content="使用poi读写excel"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="惜凡"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/atom.xml" title="惜凡" type="application/atom+xml">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="behind">
+      <a href="/" class="back black-color">
+        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M2 30 L30 2 M30 30 L2 2"></path>
+        </svg>
+      </a>
+      <div class="description">
+        &nbsp;
+      </div>
+    </div>
+    <div class="container">
+      
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        使用poi读写excel
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      
+<time datetime="2017-10-07T16:17:32.000Z">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2017-10-08
+</time>
+
+
+
+
+
+
+    
+    &nbsp;
+    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <circle cx="24" cy="8" r="2"></circle>
+      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
+    </svg>
+    &nbsp;
+    <a href="/tags/java/">java</a>
+
+
+    </div>
+    <hr>
+    <div class="picture-container">
+      
+    </div>
+    <p>首先了解以下excel文件怎么和poi中的组件对应起来的。　　</p>
+<ul>
+<li>一个Excel文件对应于一个Workbook对象</li>
+<li>一个Workbook可以有多个Sheet对象</li>
+<li>一个Sheet对象由多个Row对象组成</li>
+<li>一个Row对象是由多个Cell对象组成 </li>
+</ul>
+<p>基于以上几条，如果想对excel文件进行读写的话就要</p>
+<ol>
+<li>用Workbook打开或者创建一个Excel文件的对象</li>
+<li>用上一步的Excel对象创建或者获取到一个Sheet对象</li>
+<li>用Sheet对象创建或获取一个Row对象</li>
+<li>用Row对象创建或获取一个Cell对象</li>
+<li>对Cell对象读写。</li>
+</ol>
+<p>基于以上原理就可以轻松对Excel文件进行读写，这里以XSSFWorkbook（对应.xlsx文件即office2007以上版本，如果是.xls文件即office2003以下版本需要使用HSSFWorkbook）为例进行Excel的简单读写。<br>maven依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> &lt;!-- https://mvnrepository.com/artifact/org.apache.poi/poi --&gt;</div><div class="line"> &lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;poi&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;3.17-beta1&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line"></div><div class="line"></div><div class="line">&lt;!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml --&gt;</div><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.apache.poi&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;poi-ooxml&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;3.16-beta1&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>写操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">//创建一个Excel对象</div><div class="line">XSSFWorkbook wb = new XSSFWorkbook();</div><div class="line"></div><div class="line">//创建表单Sheet对象</div><div class="line">XSSFSheet sheet = wb.createSheet();</div><div class="line"></div><div class="line">//创建Row对象</div><div class="line">XSSFRow row1 = sheet.createRow(0);</div><div class="line">XSSFRow row2 = sheet.createRow(1);</div><div class="line">XSSFRow row3 = sheet.createRow(2);</div><div class="line"></div><div class="line">//创建Cell对象，并进行写操作</div><div class="line"></div><div class="line">//第一行</div><div class="line">XSSFCell cell1 =  row1.createCell(0);</div><div class="line">cell1.setCellValue(&quot;姓名&quot;);</div><div class="line">XSSFCell cell2 =  row1.createCell(1);</div><div class="line">cell2.setCellValue(&quot;年龄&quot;);</div><div class="line"></div><div class="line">//第二行</div><div class="line">cell1 =  row2.createCell(0);</div><div class="line">cell1.setCellValue(&quot;张三&quot;);</div><div class="line">cell2 =  row2.createCell(1);</div><div class="line">cell2.setCellValue(&quot;20&quot;);</div><div class="line"></div><div class="line">//第三行</div><div class="line">cell1 =  row3.createCell(0);</div><div class="line">cell1.setCellValue(&quot;李四&quot;);</div><div class="line">cell2 =  row3.createCell(1);</div><div class="line">cell2.setCellValue(&quot;18&quot;);</div><div class="line"></div><div class="line">//输出文件</div><div class="line">FileOutputStream output = new FileOutputStream(&quot;test.xlsx&quot;);</div><div class="line">wb.write(output);</div><div class="line">output.flush();</div></pre></td></tr></table></figure></p>
+<p><img src="/img/8297579-5e28e732a563bc53.png" alt="image.png"></p>
+<p>读操作和写操作类似，把create的地方换成get即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//获取Excel对象</div><div class="line">XSSFWorkbook wb = new XSSFWorkbook(new FileInputStream(&quot;test.xlsx&quot;));</div><div class="line"></div><div class="line">//获取一个Sheet对象</div><div class="line">XSSFSheet sheet = wb.getSheetAt(0);</div><div class="line"></div><div class="line">//获取Row对象</div><div class="line">XSSFRow row1 = sheet.getRow(0);</div><div class="line">XSSFRow row2 = sheet.getRow(1);</div><div class="line">XSSFRow row3 = sheet.getRow(2);</div><div class="line"></div><div class="line">//获取Cell对象的值并输出</div><div class="line">System.out.println(row1.getCell(0) + &quot; &quot; + row1.getCell(1));</div><div class="line">System.out.println(row2.getCell(0) + &quot; &quot; + row2.getCell(1));</div><div class="line">System.out.println(row3.getCell(0) + &quot; &quot; + row3.getCell(1));</div></pre></td></tr></table></figure></p>
+<p><img src="/img/8297579-2024e73c2e8adf72.png" alt="image.png"></p>
+<p>当然也可以根据文件扩展名自动选择使用哪个子类生成Workbook对象，这里直接封一个util工具类，方便以后直接使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div></pre></td><td class="code"><pre><div class="line">import org.apache.poi.hssf.usermodel.HSSFWorkbook;</div><div class="line">import org.apache.poi.ss.usermodel.*;</div><div class="line">import org.apache.poi.xssf.usermodel.XSSFWorkbook;</div><div class="line">import org.slf4j.Logger;</div><div class="line">import org.slf4j.LoggerFactory;</div><div class="line"></div><div class="line">import java.io.FileInputStream;</div><div class="line">import java.io.FileNotFoundException;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.util.Date;</div><div class="line">import java.util.HashMap;</div><div class="line">import java.util.Map;</div><div class="line"></div><div class="line">public class ReadExcelUtils &#123;</div><div class="line"></div><div class="line">    private Logger logger = LoggerFactory.getLogger(ReadExcelUtils.class);</div><div class="line"></div><div class="line">    private Workbook wb;</div><div class="line">    private Sheet sheet;</div><div class="line">    private Row row;</div><div class="line"></div><div class="line">    public ReadExcelUtils(String filepath) &#123;</div><div class="line">        if(filepath==null)&#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        String ext = filepath.substring(filepath.lastIndexOf(&quot;.&quot;));</div><div class="line">        try &#123;</div><div class="line">            InputStream is = new FileInputStream(filepath);</div><div class="line">            if(&quot;.xls&quot;.equals(ext))&#123;</div><div class="line">                wb = new HSSFWorkbook(is);</div><div class="line">            &#125;else if(&quot;.xlsx&quot;.equals(ext))&#123;</div><div class="line">                wb = new XSSFWorkbook(is);</div><div class="line">            &#125;else&#123;</div><div class="line">                wb=null;</div><div class="line">            &#125;</div><div class="line">        &#125; catch (FileNotFoundException e) &#123;</div><div class="line">            logger.error(&quot;FileNotFoundException&quot;, e);</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            logger.error(&quot;IOException&quot;, e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 读取Excel表格表头的内容</div><div class="line">     * @return String 表头内容的数组</div><div class="line">     */</div><div class="line">    public String[] readExcelTitle() throws Exception&#123;</div><div class="line">        if(wb==null)&#123;</div><div class="line">            throw new Exception(&quot;Workbook对象为空！&quot;);</div><div class="line">        &#125;</div><div class="line">        sheet = wb.getSheetAt(0);</div><div class="line">        row = sheet.getRow(0);</div><div class="line">        // 标题总列数</div><div class="line">        int colNum = row.getPhysicalNumberOfCells();</div><div class="line"></div><div class="line">        String[] title = new String[colNum];</div><div class="line">        for (int i = 0; i &lt; colNum; i++) &#123;</div><div class="line">            // title[i] = getStringCellValue(row.getCell((short) i));</div><div class="line">            title[i] = row.getCell(i).getStringCellValue();</div><div class="line">        &#125;</div><div class="line">        return title;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 读取Excel数据内容</div><div class="line">     * @return Map 包含单元格数据内容的Map对象</div><div class="line">     */</div><div class="line">    public Map&lt;Integer, Map&lt;Integer,Object&gt;&gt; readExcelContent() throws Exception&#123;</div><div class="line">        if(wb==null)&#123;</div><div class="line">            throw new Exception(&quot;Workbook对象为空！&quot;);</div><div class="line">        &#125;</div><div class="line">        Map&lt;Integer, Map&lt;Integer,Object&gt;&gt; content = new HashMap&lt;Integer, Map&lt;Integer,Object&gt;&gt;();</div><div class="line"></div><div class="line">        sheet = wb.getSheetAt(0);</div><div class="line">        // 得到总行数</div><div class="line">        int rowNum = sheet.getLastRowNum();</div><div class="line">        row = sheet.getRow(0);</div><div class="line">        int colNum = row.getPhysicalNumberOfCells();</div><div class="line"></div><div class="line">        // 正文内容应该从第二行开始,第一行为表头的标题</div><div class="line">        for (int i = 1; i &lt;= rowNum; i++) &#123;</div><div class="line">            row = sheet.getRow(i);</div><div class="line">            int j = 0;</div><div class="line">            Map&lt;Integer,Object&gt; cellValue = new HashMap&lt;Integer, Object&gt;();</div><div class="line">            while (j &lt; colNum) &#123;</div><div class="line">                Object obj = getCellFormatValue(row.getCell(j));</div><div class="line">                cellValue.put(j, obj);</div><div class="line">                j++;</div><div class="line">            &#125;</div><div class="line">            content.put(i, cellValue);</div><div class="line">        &#125;</div><div class="line">        return content;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 根据Cell类型设置数据</div><div class="line">     * @param cell</div><div class="line">     * @return Object</div><div class="line">     */</div><div class="line">    private Object getCellFormatValue(Cell cell) &#123;</div><div class="line">        Object cellvalue = &quot;&quot;;</div><div class="line">        if (cell != null) &#123;</div><div class="line"></div><div class="line">            // 判断当前Cell的Type</div><div class="line">            switch (cell.getCellType()) &#123;</div><div class="line">                case Cell.CELL_TYPE_NUMERIC:// 如果当前Cell的Type为NUMERIC</div><div class="line">                case Cell.CELL_TYPE_FORMULA: &#123;</div><div class="line">                    // 判断当前的cell是否为Date</div><div class="line">                    if (DateUtil.isCellDateFormatted(cell)) &#123;</div><div class="line">                        // 如果是Date类型则，转化为Data格式</div><div class="line">                        // data格式是带时分秒的：2013-7-10 0:00:00</div><div class="line">                        // cellvalue = cell.getDateCellValue().toLocaleString();</div><div class="line"></div><div class="line"></div><div class="line">                        // data格式是不带带时分秒的：2013-7-10</div><div class="line">                        Date date = cell.getDateCellValue();</div><div class="line">                        cellvalue = date;</div><div class="line">                    &#125; else &#123;</div><div class="line">                        // 如果是纯数字</div><div class="line">                        // 取得当前Cell的数值</div><div class="line">                        cellvalue = String.valueOf(cell.getNumericCellValue());</div><div class="line">                    &#125;</div><div class="line">                    break;</div><div class="line">                &#125;</div><div class="line">                case Cell.CELL_TYPE_STRING:// 如果当前Cell的Type为STRING</div><div class="line">                    // 取得当前的Cell字符串</div><div class="line">                    cellvalue = cell.getRichStringCellValue().getString();</div><div class="line">                    break;</div><div class="line">                default:// 默认的Cell值</div><div class="line">                    cellvalue = &quot;&quot;;</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;</div><div class="line">            cellvalue = &quot;&quot;;</div><div class="line">        &#125;</div><div class="line">        return cellvalue;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+
+  </article>
+  </script>
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>

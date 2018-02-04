@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  
+  <title>spring boot 配置 https|ssl</title>
+  <meta name="author" content="xmfaly">
+  <meta name="description" content="ssl证书我选择了免费的Let’s Encrypt
+1.下载脚本并生成证书123# git clone https://github.com/letsencrypt/letsencrypt# cd letsencrypt# ./letsencrypt-auto certonly --standalo">
+  
+  
+  <meta property="og:title" content="spring boot 配置 https|ssl"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="惜凡"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/atom.xml" title="惜凡" type="application/atom+xml">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="behind">
+      <a href="/" class="back black-color">
+        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M2 30 L30 2 M30 30 L2 2"></path>
+        </svg>
+      </a>
+      <div class="description">
+        &nbsp;
+      </div>
+    </div>
+    <div class="container">
+      
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        spring boot 配置 https|ssl
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      
+<time datetime="2017-11-08T09:52:00.000Z">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2017-11-08
+</time>
+
+
+
+
+
+
+    
+    &nbsp;
+    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+      <circle cx="24" cy="8" r="2"></circle>
+      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
+    </svg>
+    &nbsp;
+    <a href="/tags/java/">java</a>
+
+
+    </div>
+    <hr>
+    <div class="picture-container">
+      
+    </div>
+    <p>ssl证书我选择了免费的<a href="https://letsencrypt.org/" target="_blank" rel="external">Let’s Encrypt</a></p>
+<h3 id="1-下载脚本并生成证书"><a href="#1-下载脚本并生成证书" class="headerlink" title="1.下载脚本并生成证书"></a>1.下载脚本并生成证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># git clone https://github.com/letsencrypt/letsencrypt</div><div class="line"># cd letsencrypt</div><div class="line"># ./letsencrypt-auto certonly --standalone --email 邮箱 -d 域名</div></pre></td></tr></table></figure>
+<p>因为网络问题pip可能需要换源，请自行网上查找换源方法。</p>
+<h3 id="2-设置自动延期"><a href="#2-设置自动延期" class="headerlink" title="2.设置自动延期"></a>2.设置自动延期</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># ./letsencrypt-auto --renew certonly --email 邮箱 -d 域名</div></pre></td></tr></table></figure>
+<h3 id="3-查看证书"><a href="#3-查看证书" class="headerlink" title="3.查看证书"></a>3.查看证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># cd /etc/letsencrypt/live/</div><div class="line"># cd 域名</div><div class="line">fullchain.pem 为证书  privatkey.pem 为密钥</div></pre></td></tr></table></figure>
+<h3 id="4-生成-jks证书"><a href="#4-生成-jks证书" class="headerlink" title="4.生成.jks证书"></a>4.生成.jks证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out fullchain_and_key.p12 -name tomcat</div><div class="line"># keytool -importkeystore -deststorepass &apos;yourJKSpass&apos; -destkeypass &apos;yourKeyPass&apos; -destkeystore MyDSKeyStore.jks -srckeystore fullchain_and_key.p12 -srcstoretype PKCS12 -srcstorepass &apos;yourPKCS12pass&apos; -alias tomcat</div></pre></td></tr></table></figure>
+<p>第一步会让你输入密码，对应第二步中的yourPKCS12pass 。第二步中的前两个密码自己设置一下并记好，下面的会用到。</p>
+<h3 id="5-配置spring-boot"><a href="#5-配置spring-boot" class="headerlink" title="5.配置spring-boot"></a>5.配置spring-boot</h3><p>将.jsk文件放到<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">server.port = 8443</div><div class="line">server.ssl.key-store = classpath:MyDSKeyStore.jks</div><div class="line">server.ssl.key-store-password = yourJKSpass</div><div class="line">server.ssl.key-password = yourKeyPass</div></pre></td></tr></table></figure></p>
+<p>此时服务器支持https，但只支持https<br>可以配置同时支持htttp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">@Bean</div><div class="line">public Integer port() &#123;</div><div class="line">    return 8080;</div><div class="line">    //return SocketUtils.findAvailableTcpPort();</div><div class="line">&#125;</div><div class="line">@Bean</div><div class="line">public EmbeddedServletContainerFactory servletContainer() &#123;</div><div class="line">    TomcatEmbeddedServletContainerFactory tomcat = new 					  TomcatEmbeddedServletContainerFactory();</div><div class="line">    tomcat.addAdditionalTomcatConnectors(createStandardConnector());</div><div class="line">    return tomcat;</div><div class="line">&#125;</div><div class="line">private Connector createStandardConnector() &#123;</div><div class="line">    Connector connector = new Connector(&quot;org.apache.coyote.http11.Http11NioProtocol&quot;);</div><div class="line">    connector.setPort(port());</div><div class="line">    return connector;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样 8080端口是http 8443端口是https<br>也可以设置http自动重定向到https<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">@Value(&quot;$&#123;server.port&#125;&quot;)</div><div class="line">   private int port;</div><div class="line">@Bean</div><div class="line">   public EmbeddedServletContainerFactory servletContainer() &#123;</div><div class="line">       TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() &#123;</div><div class="line">           @Override</div><div class="line">           protected void postProcessContext(Context context) &#123;</div><div class="line">               SecurityConstraint securityConstraint = new SecurityConstraint();</div><div class="line">               securityConstraint.setUserConstraint(&quot;CONFIDENTIAL&quot;);</div><div class="line">               SecurityCollection collection = new SecurityCollection();</div><div class="line">               collection.addPattern(&quot;/*&quot;);</div><div class="line">               securityConstraint.addCollection(collection);</div><div class="line">               context.addConstraint(securityConstraint);</div><div class="line">           &#125;</div><div class="line">       &#125;;</div><div class="line">       tomcat.addAdditionalTomcatConnectors(initiateHttpConnector());</div><div class="line">       return tomcat;</div><div class="line">   &#125;</div><div class="line">   private Connector initiateHttpConnector() &#123;</div><div class="line">       Connector connector = new Connector(&quot;org.apache.coyote.http11.Http11NioProtocol&quot;);</div><div class="line">       connector.setScheme(&quot;http&quot;);</div><div class="line">       connector.setPort(8080);</div><div class="line">       connector.setSecure(false);</div><div class="line">       connector.setRedirectPort(port);</div><div class="line">       return connector;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+
+
+  </article>
+  </script>
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>
