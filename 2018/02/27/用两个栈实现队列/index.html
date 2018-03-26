@@ -9,30 +9,7 @@
   
   <title>用两个栈实现队列</title>
   <meta name="author" content="xmfaly">
-  <meta name="description" content="假设使用栈1作为入栈缓冲区，栈2作为出栈缓冲区，那么入栈和出栈的时候所有的可能性有以下三种情况
-
-
-
-
-
-
-
-
-
-栈1
-空
-非空
-空
-
-
-栈2
-空
-空
-非空
-
-
-
-因为每次都是要弹出某个栈顶或栈底的元素因此并不存在两个栈同时非空的情况。栈1栈2同时为空的时候入队时直接压入栈1即可，栈1非空栈2空时同">
+  <meta name="description" content="2018年3月23更新经学弟提醒入队的时候并不需要保证栈2为空，可以存在两个栈同时不空的情况。对于栈2的处理不变，栈1直接入栈即可。如果按照原答案的话，出队需要都移到栈2，入队需要都移到栈1，如果反复出队一个，入队一个就会浪费大量时间在移动数据上。123public void push(int no">
   
   
   <meta property="og:title" content="用两个栈实现队列"/>
@@ -93,7 +70,8 @@
     <div class="picture-container">
       
     </div>
-    <p>假设使用栈1作为入栈缓冲区，栈2作为出栈缓冲区，那么入栈和出栈的时候所有的可能性有以下三种情况</p>
+    <p>2018年3月23更新<br>经学弟提醒入队的时候并不需要保证栈2为空，可以存在两个栈同时不空的情况。对于栈2的处理不变，栈1直接入栈即可。如果按照原答案的话，出队需要都移到栈2，入队需要都移到栈1，如果反复出队一个，入队一个就会浪费大量时间在移动数据上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void push(int node) &#123;</span><br><span class="line">    stack1.push(node);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以下为原博文<br>假设使用栈1作为入栈缓冲区，栈2作为出栈缓冲区，那么入栈和出栈的时候所有的可能性有以下三种情况</p>
 <table>
 <thead>
 <tr>
