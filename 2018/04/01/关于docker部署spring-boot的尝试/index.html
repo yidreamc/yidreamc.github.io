@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  
+  <title>关于docker部署spring-boot的尝试</title>
+  <meta name="author" content="xmfaly">
+  <meta name="description" content="最近搬家一个服务器，发现要安装好多好多的环境，相当麻烦。以前我也经常重装电脑，后来觉得麻烦就把我的开发环境都弄到了虚拟机里面，一方面linux环境，另一方面也不用反复重装。想到这里我想到了被我遗忘很久的docker了。可以在服务器上只安装docker，然后以后环境什么的不用我考虑了。
+先用我最常用的">
+  
+  
+  <meta property="og:title" content="关于docker部署spring-boot的尝试"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="惜凡"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/atom.xml" title="惜凡" type="application/atom+xml">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="behind">
+      <a href="/" class="back black-color">
+        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M2 30 L30 2 M30 30 L2 2"></path>
+        </svg>
+      </a>
+      <div class="description">
+        &nbsp;
+      </div>
+    </div>
+    <div class="container">
+      
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        关于docker部署spring-boot的尝试
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      
+<time datetime="2018-04-01T11:41:02.000Z">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2018-04-01
+</time>
+
+
+
+
+
+
+
+    </div>
+    <hr>
+    <div class="picture-container">
+      
+    </div>
+    <p>最近搬家一个服务器，发现要安装好多好多的环境，相当麻烦。<br>以前我也经常重装电脑，后来觉得麻烦就把我的开发环境都弄到了虚拟机里面，一方面linux环境，另一方面也不用反复重装。想到这里我想到了被我遗忘很久的docker了。<br>可以在服务器上只安装docker，然后以后环境什么的不用我考虑了。</p>
+<p>先用我最常用的spring-boot尝试一下，以后再部署其他的。在这里记录一下过程。</p>
+<h3 id="添加maven构建插件"><a href="#添加maven构建插件" class="headerlink" title="添加maven构建插件"></a>添加maven构建插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">	&lt;properties&gt;</span><br><span class="line">		&lt;docker.image.prefix&gt;xmfaly&lt;/docker.image.prefix&gt;</span><br><span class="line">	&lt;/properties&gt;</span><br><span class="line">&lt;plugin&gt;</span><br><span class="line">				&lt;groupId&gt;com.spotify&lt;/groupId&gt;</span><br><span class="line">				&lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">				&lt;version&gt;0.4.11&lt;/version&gt;</span><br><span class="line">				&lt;configuration&gt;</span><br><span class="line">					&lt;imageName&gt;$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;&lt;/imageName&gt;</span><br><span class="line">					&lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt;</span><br><span class="line">					&lt;resources&gt;</span><br><span class="line">						&lt;resource&gt;</span><br><span class="line">							&lt;targetPath&gt;/&lt;/targetPath&gt;</span><br><span class="line">							&lt;directory&gt;$&#123;project.build.directory&#125;&lt;/directory&gt;</span><br><span class="line">							&lt;include&gt;$&#123;project.build.finalName&#125;.jar&lt;/include&gt;</span><br><span class="line">						&lt;/resource&gt;</span><br><span class="line">					&lt;/resources&gt;</span><br><span class="line">				&lt;/configuration&gt;</span><br><span class="line">			&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="建立Dockerfile"><a href="#建立Dockerfile" class="headerlink" title="建立Dockerfile"></a>建立Dockerfile</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM java:8</span><br><span class="line">VOLUME /log</span><br><span class="line">ADD *.jar app.jar</span><br><span class="line">RUN sh -c &apos;touch /app.jar&apos;</span><br><span class="line">EXPOSE 8080</span><br><span class="line">ENV JAVA_OPTS=&quot;&quot;</span><br><span class="line">ENTRYPOINT [ &quot;sh&quot;, &quot;-c&quot;, &quot;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar &gt;&gt;/log/out&quot; ]</span><br></pre></td></tr></table></figure>
+<h3 id="部署脚本"><a href="#部署脚本" class="headerlink" title="部署脚本"></a>部署脚本</h3><p>因为我是本地虚拟机linux环境。所以我需要先从git拉最新的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#docker 用户名</span><br><span class="line">USER_NAME=</span><br><span class="line"># 项目名称</span><br><span class="line">PROJ_NAME=</span><br><span class="line"># 服务器用户名</span><br><span class="line">SERVER_NAME=</span><br><span class="line"># 服务器地址</span><br><span class="line">SERVER_HOST=</span><br><span class="line"># 部署端口</span><br><span class="line">DEPLOY_PORT=</span><br><span class="line"></span><br><span class="line"># 停止原来的容器</span><br><span class="line"># docker stop $PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 删除原来的容器和镜像</span><br><span class="line">docker rm $PROJ_NAME</span><br><span class="line">docker rmi $USER_NAME/$PROJ_NAME</span><br><span class="line"></span><br><span class="line">#拉取更新</span><br><span class="line">git pull</span><br><span class="line"></span><br><span class="line"># 本地构件镜像</span><br><span class="line">./mvnw package -Dmaven.test.skip=true docker:build</span><br><span class="line"></span><br><span class="line"># 上传镜像到远程仓库</span><br><span class="line">docker push $USER_NAME/$PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 连接服务器</span><br><span class="line">ssh $SERVER_NAME@$SERVER_HOST -tt &lt;&lt; cmd</span><br><span class="line"></span><br><span class="line"># 停止原来的容器</span><br><span class="line">docker stop $PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 删除原来的容器</span><br><span class="line">docker rm $PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 拉取最新的镜像</span><br><span class="line">docker pull $USER_NAME/$PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 运行容器</span><br><span class="line">docker run --name=$PROJ_NAME -p $DEPLOY_PORT:8080 -v /root/log/:/log/ -t $USER_NAME/$PROJ_NAME</span><br><span class="line"></span><br><span class="line">cmd</span><br></pre></td></tr></table></figure></p>
+
+
+  </article>
+  </script>
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>

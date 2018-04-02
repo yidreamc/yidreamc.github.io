@@ -3,6 +3,85 @@
   
     
     <entry>
+      <title><![CDATA[关于docker部署spring-boot的尝试]]></title>
+      <url>/2018/04/01/%E5%85%B3%E4%BA%8Edocker%E9%83%A8%E7%BD%B2spring-boot%E7%9A%84%E5%B0%9D%E8%AF%95/</url>
+      <content type="html"><![CDATA[<p>最近搬家一个服务器，发现要安装好多好多的环境，相当麻烦。<br>以前我也经常重装电脑，后来觉得麻烦就把我的开发环境都弄到了虚拟机里面，一方面linux环境，另一方面也不用反复重装。想到这里我想到了被我遗忘很久的docker了。<br>可以在服务器上只安装docker，然后以后环境什么的不用我考虑了。</p>
+<p>先用我最常用的spring-boot尝试一下，以后再部署其他的。在这里记录一下过程。</p>
+<h3 id="添加maven构建插件"><a href="#添加maven构建插件" class="headerlink" title="添加maven构建插件"></a>添加maven构建插件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">	&lt;properties&gt;</span><br><span class="line">		&lt;docker.image.prefix&gt;xmfaly&lt;/docker.image.prefix&gt;</span><br><span class="line">	&lt;/properties&gt;</span><br><span class="line">&lt;plugin&gt;</span><br><span class="line">				&lt;groupId&gt;com.spotify&lt;/groupId&gt;</span><br><span class="line">				&lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">				&lt;version&gt;0.4.11&lt;/version&gt;</span><br><span class="line">				&lt;configuration&gt;</span><br><span class="line">					&lt;imageName&gt;$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;&lt;/imageName&gt;</span><br><span class="line">					&lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt;</span><br><span class="line">					&lt;resources&gt;</span><br><span class="line">						&lt;resource&gt;</span><br><span class="line">							&lt;targetPath&gt;/&lt;/targetPath&gt;</span><br><span class="line">							&lt;directory&gt;$&#123;project.build.directory&#125;&lt;/directory&gt;</span><br><span class="line">							&lt;include&gt;$&#123;project.build.finalName&#125;.jar&lt;/include&gt;</span><br><span class="line">						&lt;/resource&gt;</span><br><span class="line">					&lt;/resources&gt;</span><br><span class="line">				&lt;/configuration&gt;</span><br><span class="line">			&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="建立Dockerfile"><a href="#建立Dockerfile" class="headerlink" title="建立Dockerfile"></a>建立Dockerfile</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM java:8</span><br><span class="line">VOLUME /log</span><br><span class="line">ADD *.jar app.jar</span><br><span class="line">RUN sh -c &apos;touch /app.jar&apos;</span><br><span class="line">EXPOSE 8080</span><br><span class="line">ENV JAVA_OPTS=&quot;&quot;</span><br><span class="line">ENTRYPOINT [ &quot;sh&quot;, &quot;-c&quot;, &quot;java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar &gt;&gt;/log/out&quot; ]</span><br></pre></td></tr></table></figure>
+<h3 id="部署脚本"><a href="#部署脚本" class="headerlink" title="部署脚本"></a>部署脚本</h3><p>因为我是本地虚拟机linux环境。所以我需要先从git拉最新的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#docker 用户名</span><br><span class="line">USER_NAME=</span><br><span class="line"># 项目名称</span><br><span class="line">PROJ_NAME=</span><br><span class="line"># 服务器用户名</span><br><span class="line">SERVER_NAME=</span><br><span class="line"># 服务器地址</span><br><span class="line">SERVER_HOST=</span><br><span class="line"># 部署端口</span><br><span class="line">DEPLOY_PORT=</span><br><span class="line"></span><br><span class="line"># 停止原来的容器</span><br><span class="line"># docker stop $PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 删除原来的容器和镜像</span><br><span class="line">docker rm $PROJ_NAME</span><br><span class="line">docker rmi $USER_NAME/$PROJ_NAME</span><br><span class="line"></span><br><span class="line">#拉取更新</span><br><span class="line">git pull</span><br><span class="line"></span><br><span class="line"># 本地构件镜像</span><br><span class="line">./mvnw package -Dmaven.test.skip=true docker:build</span><br><span class="line"></span><br><span class="line"># 上传镜像到远程仓库</span><br><span class="line">docker push $USER_NAME/$PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 连接服务器</span><br><span class="line">ssh $SERVER_NAME@$SERVER_HOST -tt &lt;&lt; cmd</span><br><span class="line"></span><br><span class="line"># 停止原来的容器</span><br><span class="line">docker stop $PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 删除原来的容器</span><br><span class="line">docker rm $PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 拉取最新的镜像</span><br><span class="line">docker pull $USER_NAME/$PROJ_NAME</span><br><span class="line"></span><br><span class="line"># 运行容器</span><br><span class="line">docker run --name=$PROJ_NAME -p $DEPLOY_PORT:8080 -v /root/log/:/log/ -t $USER_NAME/$PROJ_NAME</span><br><span class="line"></span><br><span class="line">cmd</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[关于掌上联创的探索]]></title>
+      <url>/2018/03/25/%E5%85%B3%E4%BA%8E%E6%8E%8C%E4%B8%8A%E8%81%94%E5%88%9B%E7%9A%84%E6%8E%A2%E7%B4%A2/</url>
+      <content type="html"><![CDATA[<p>我们学校使用了联创打印系统，应该好多学校都在用，他们提供了一个客户端，我们下载之后在本地打印，之后到打印机刷卡取走打印的东西。<br>这个系统对于以前去学校外面排队打印而言相当方便。<br>我使用这个系统的主要场景就是打印课件，很多时候老师前天把课件发给我们，第二天讲课会用到，但是忘记在电脑上打印了就贼尴尬，因为联创只提供pc版的客户端，这个时候在教室的我就显得很无助了。为此有一阵还特地开着电脑，方便随时可以用teamviewer进行控制打印。<br>刚开始的时候我还想他们为什么不提供一个手机客户端，后来我了解到打印机只负责打印，他们的客户端负责传输，而文件的格式解析什么的都在本地进行，也就是假如我想打印一个word文件，我电脑上必须有可以识别word的软件，否则我就不能打印。也就是说，如果做一个手机客户端，在现有的环境下，几乎是不可能的，因为主流的手机可以解析word，pdf的这些软件都不提供打印的接口。让联创自己做，当我没说吧。<br>我就想我能不能在服务器上做一个中转，我的手机把文件传到服务器上，然后服务器上装了联创的客户端和各种能够解析pdf，word这些的软件，在服务器上把我想打印的文件送到联创的服务器上。<br>想想还觉得蛮简单的，但是实际操作的时候遇到了一系列的问题。</p>
+<h3 id="服务器环境"><a href="#服务器环境" class="headerlink" title="服务器环境"></a>服务器环境</h3><p>因为联创只提供windows客户端为了简便起见我也选择了windows的服务器。</p>
+<h3 id="内网问题"><a href="#内网问题" class="headerlink" title="内网问题"></a>内网问题</h3><p>我是用的时腾讯云的服务器，但是学校联创客户端只有校园网才可以连接，我们学校也提供vpn，有两种方式一种是客户端，一种是直接设置，直接设置那种在平常的pc机上很简单，但是如果是服务器上就相当麻烦，正好是windows服务器，我就直接下载了客户端安装上。登陆之后发现再也连不上服务器了，因为vpn改变了地址。问了大佬们如何解决这个问题，有人说可以设置解决这个，也有人说可以搞两台服务器，一台做反向代理转发，一台开vpn。我觉得这两个办法都行，但我没有采用，我用的是sock5 + Proxifier解决这个问题的。</p>
+<h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><p>因为打印的文件可能有多种格式。我的服务器内存有限所以我肯定不能把各种软件都装一遍。最后折中一下我选择装 Sumatra PDF + Liboffice 。pdf软件负责解析文件和office软件负责把所有其他格式的文件转换成pdf。</p>
+<h3 id="自动执行"><a href="#自动执行" class="headerlink" title="自动执行"></a>自动执行</h3><p>因为平时用的都是java，一开始想找一个java的可以控制窗口程序的库，但最后还是放弃了，果断转为python，我才用一个非常流行的窗口程序测试框架pywinauto来控制打印机程序和pdf解析软件。之所以不用命令行直接控制打印机，我感觉是因为联创当时写的时候的有个bug把。把任务放到队列中一直不打印，所以只能模拟人工操作了。也可能是我对windows的打印任务不了解导致的。</p>
+<h3 id="web框架"><a href="#web框架" class="headerlink" title="web框架"></a>web框架</h3><p>这里先说一下为啥不用微信小程序，微信小程序是提供了文件上传功能的，但是不提供文件选择的api，换句话说，我可以上传，但是鬼知道你要上传的文件在哪个文件夹里，叫什么名字。所以没办法只能选择html5了，后台方面因为主要逻辑都是python，所以直接整了个python的web框架flask，话说python的东西就是简单方便，这个框架我看了还不到10分钟吧就能上手写东西了。</p>
+<h3 id="统一身份认证"><a href="#统一身份认证" class="headerlink" title="统一身份认证"></a>统一身份认证</h3><p>联创使用了我们学校的统一身份认证，但是感觉他的逻辑有点问题，先解析文件，然后认证，然后上传打印，如果我也模拟他这样的操作的话，本身我的服务器带宽低资源少，费了半天时间传到服务器上，然后又是半天解析文件，然后反回来一个用户名密码错误。<br>所以我放弃了联创自带的认证，在传文件之前用requests向统一身份认证接口post数据，认证成功继续，失败直接返回结果。</p>
+<h3 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h3><p>当然还有一些解决不了的或者不能解决的问题。上面也提到了一方面是网速，一方面是服务器资源。当然还有我的调度算法，falsk的单线程。这些都是问题。不过没太有时间去优化了。暂时可以用就行了吧。</p>
+<p>最后福利时间，放出地址吧。这个项目我不是很想开源，而且由于服务器资源有限，肯定是不能对所有人开放的。希望看到地址的人且行且珍惜，不要乱宣传。<a href="http://115.159.153.43:5000/login" target="_blank" rel="noopener">http://115.159.153.43:5000/login</a></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[求1+2+3+4+...+n]]></title>
+      <url>/2018/03/13/%E6%B1%821-2-3-4-n/</url>
+      <content type="html"><![CDATA[<p>今晚遇到一个好巧妙地题，题本身不是很难，但是感觉思想很棒。</p>
+<blockquote>
+<p>求1+2+3+…+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
+</blockquote>
+<p>不能使用乘除循环的话，很容易可以想到用递归来解决，f(n) = f(n-1) + n,但是如果要求不使用判断语句递归结束的条件又难写。<br>想了好久，还是没做出来，最后网上找到了解决办法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public int Sum_Solution(int n) &#123;</span><br><span class="line">    int res = n;</span><br><span class="line">    boolean temp = (n &gt; 0) &amp;&amp; (( res +=Sum_Solution(n-1))&gt;0);</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>感觉这题最巧妙的地方就是利用了短路运算符 &amp;&amp; 。<br>如果 &amp;&amp; 前的表达式成立的话就会去验证后面的表达式值，反之结束判断，返回false，利用这个特性来巧妙地结束递归。</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[两个栈实现队列]]></title>
+      <url>/2018/02/27/%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/</url>
+      <content type="html"><![CDATA[<p>2018年3月23更新<br>经学弟提醒入队的时候并不需要保证栈2为空，可以存在两个栈同时不空的情况。对于栈2的处理不变，栈1直接入栈即可。如果按照原答案的话，出队需要都移到栈2，入队需要都移到栈1，如果反复出队一个，入队一个就会浪费大量时间在移动数据上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void push(int node) &#123;</span><br><span class="line">    stack1.push(node);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以下为原博文<br>假设使用栈1作为入栈缓冲区，栈2作为出栈缓冲区，那么入栈和出栈的时候所有的可能性有以下三种情况</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center"></th>
+<th style="text-align:right"></th>
+<th style="text-align:right"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>栈1</td>
+<td style="text-align:center">空</td>
+<td style="text-align:right">非空</td>
+<td style="text-align:right">空</td>
+</tr>
+<tr>
+<td>栈2</td>
+<td style="text-align:center">空</td>
+<td style="text-align:right">空</td>
+<td style="text-align:right">非空</td>
+</tr>
+</tbody>
+</table>
+<p>因为每次都是要弹出某个栈顶或栈底的元素因此并不存在两个栈同时非空的情况。<br>栈1栈2同时为空的时候入队时直接压入栈1即可，栈1非空栈2空时同样直接压入栈1即可，栈1空栈2非空需要把栈2中的元素全部退回到栈1中然后压如栈1.<br>出队时同样的道理。<br>如果栈1栈2都为空，没有元素无法出栈，如果栈2非空，栈1空，直接弹出栈2顶端元素即可，如果栈1非空，栈2空需要把栈1的元素全部压入栈2，然后弹出栈2顶端元素即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Stack&lt;Integer&gt; stack1 = new Stack&lt;Integer&gt;();</span><br><span class="line">Stack&lt;Integer&gt; stack2 = new Stack&lt;Integer&gt;();</span><br><span class="line"></span><br><span class="line">public void push(int node) &#123;</span><br><span class="line">    if(stack2.isEmpty())&#123;</span><br><span class="line">        stack1.push(node);</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        while(!stack2.isEmpty())&#123;</span><br><span class="line">            stack1.push(stack2.pop());</span><br><span class="line">        &#125;</span><br><span class="line">        stack1.push(node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public int pop() &#123;</span><br><span class="line">    if(!stack2.isEmpty())&#123;</span><br><span class="line">        return stack2.pop();</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        while(!stack1.isEmpty())&#123;</span><br><span class="line">            stack2.push(stack1.pop());</span><br><span class="line">        &#125;</span><br><span class="line">        return stack2.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[maven笔记]]></title>
       <url>/2018/01/11/maven%E7%AC%94%E8%AE%B0/</url>
       <content type="html"><![CDATA[<p>以前也没有系统的看过maven的资料，一般就是用它来添加依赖，但最近惨遭maven的折磨，经常性的编译通过，但运行的时候出现<code>ClassNotFoundException</code>或者<code>NoClassDefFoundError</code>之类的错误，终于痛下决心，想系统的了解一下Maven的用法。</p>
