@@ -9,7 +9,7 @@
   
   <title>java设置socket代理</title>
   <meta name="author" content="xmfaly">
-  <meta name="description" content="因为一个服务的请求地址被限制死了在服务器上，本地开发非常不方便，本来打算用转发结局的，但是想到服务器上有之前搭建的ss服务，于是查了一下可以直接设置socket代理解决这个问题。12345678String proxyHost = &amp;quot;127.0.0.1&amp;quot;;String proxy">
+  <meta name="description" content="因为一个服务的请求地址被限制死了在服务器上，本地开发非常不方便，本来打算用转发解决的，但是想到服务器上有之前搭建的ss服务，于是查了一下可以直接设置socket代理解决这个问题。12345678String proxyHost = &amp;quot;127.0.0.1&amp;quot;;String proxy">
   
   
   <meta property="og:title" content="java设置socket代理"/>
@@ -79,7 +79,7 @@
     <div class="picture-container">
       
     </div>
-    <p>因为一个服务的请求地址被限制死了在服务器上，本地开发非常不方便，本来打算用转发结局的，但是想到服务器上有之前搭建的ss服务，于是查了一下可以直接设置socket代理解决这个问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">String proxyHost = &quot;127.0.0.1&quot;;</span><br><span class="line">String proxyPort = &quot;1080&quot;;</span><br><span class="line">      </span><br><span class="line">System.setProperty(&quot;http.proxyHost&quot;, proxyHost);</span><br><span class="line">System.setProperty(&quot;http.proxyPort&quot;, proxyPort);</span><br><span class="line">      </span><br><span class="line">System.setProperty(&quot;https.proxyHost&quot;, proxyHost);</span><br><span class="line">System.setProperty(&quot;https.proxyPort&quot;, proxyPort);</span><br></pre></td></tr></table></figure></p>
+    <p>因为一个服务的请求地址被限制死了在服务器上，本地开发非常不方便，本来打算用转发解决的，但是想到服务器上有之前搭建的ss服务，于是查了一下可以直接设置socket代理解决这个问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">String proxyHost = &quot;127.0.0.1&quot;;</span><br><span class="line">String proxyPort = &quot;1080&quot;;</span><br><span class="line"></span><br><span class="line">System.setProperty(&quot;http.proxyHost&quot;, proxyHost);</span><br><span class="line">System.setProperty(&quot;http.proxyPort&quot;, proxyPort);</span><br><span class="line"></span><br><span class="line">System.setProperty(&quot;https.proxyHost&quot;, proxyHost);</span><br><span class="line">System.setProperty(&quot;https.proxyPort&quot;, proxyPort);</span><br></pre></td></tr></table></figure></p>
 <p>其他代理设置方法 <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/net/proxies.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/8/docs/technotes/guides/net/proxies.html</a></p>
 
 
@@ -88,9 +88,9 @@
     <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
   </script>
   <div class="busuanzi center">
-    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
-    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
-    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+    页阅读量:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    站访问量:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    站访客数:&nbsp;<span id="busuanzi_value_site_uv"></span>
   </div>
 
 
