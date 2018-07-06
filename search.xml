@@ -3,6 +3,24 @@
   
     
     <entry>
+      <title>maven多配置文件</title>
+      <link href="/2018/07/06/maven%E5%A4%9A%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/"/>
+      <url>/2018/07/06/maven%E5%A4%9A%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<p>我也不知道该怎么总结这篇文章的题目，事情是这样的，在开发的过程中我需要一个插件，但是在生产环境中我不需要这个插件，我想了一下maven的那些作用域，竟然没有可以解决这个问题的。</p><p>这个问题可以通过配置两份<code>pom.xml</code>来实现，我不知道行业内在生产中是不是这样做的，总是感觉不优雅。</p><p><code>mvn -f pom-prod.xml package</code></p>]]></content>
+      
+      
+    </entry>
+    
+    <entry>
+      <title>history对象</title>
+      <link href="/2018/06/10/history%E5%AF%B9%E8%B1%A1/"/>
+      <url>/2018/06/10/history%E5%AF%B9%E8%B1%A1/</url>
+      <content type="html"><![CDATA[]]></content>
+      
+      
+    </entry>
+    
+    <entry>
       <title>合成10</title>
       <link href="/2018/06/10/%E5%90%88%E6%88%9010/"/>
       <url>/2018/06/10/%E5%90%88%E6%88%9010/</url>
