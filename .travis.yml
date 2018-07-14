@@ -6,7 +6,7 @@ branches:
 before_install:
   - npm install -g hexo
   - npm install -g hexo-cli
-  - git clone https://github.com/xmfaly/xmfaly.github.io.git public
+  - git clone https://github.com/yidreamc/yidreamc.github.io public
 install:
   - npm install
 script:
@@ -14,11 +14,11 @@ script:
 after_success:
   - cd ./public
   - git init
-  - git config --global user.name 'xmfaly'
-  - git config --global user.email 'xmfaly@gmail.com'
+  - git config --global user.name 'yidreamc'
+  - git config --global user.email 'yidreamc@gmail.com'
   - git add --all
   - git commit -m "update"
-  - git push https://$REPO_TOKEN@github.com/xmfaly/xmfaly.github.io.git master
+  - git push https://$REPO_TOKEN@github.com/yidreamc/yidreamc.github.io.git master
 env:
   global:
-    - GH_REF: https://github.com/xmfaly/xmfaly.github.io.git
+    - GH_REF: https://github.com/yidreamc/yidreamc.github.io
