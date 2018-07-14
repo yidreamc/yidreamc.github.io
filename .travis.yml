@@ -1,0 +1,24 @@
+language: node_js
+node_js: stable
+branches:
+  only:
+  - dev
+before_install:
+  - npm install -g hexo
+  - npm install -g hexo-cli
+  - git clone https://github.com/xmfaly/xmfaly.github.io.git public
+install:
+  - npm install
+script:
+  - hexo generate
+after_success:
+  - cd ./public
+  - git init
+  - git config --global user.name 'xmfaly'
+  - git config --global user.email 'xmfaly@gmail.com'
+  - git add --all
+  - git commit -m "update"
+  - git push https://$REPO_TOKEN@github.com/xmfaly/xmfaly.github.io.git master
+env:
+  global:
+    - GH_REF: https://github.com/xmfaly/xmfaly.github.io.git
