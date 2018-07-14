@@ -2,7 +2,7 @@ language: node_js
 node_js: stable
 branches:
   only:
-  - master
+  - dev
 before_install:
   - npm install -g hexo
   - npm install -g hexo-cli
