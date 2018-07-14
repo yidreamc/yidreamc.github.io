@@ -1,0 +1,690 @@
+---
+title: Java工具类整理
+date: 2017-10-20 15:50:16
+tags: ['java']
+---
+以下整理常用的java工具类。
+
+### 二维码生成和解析(网上很多接口也很方便)
+使用google的zxing
+```
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+```
+工具类
+```
+import com.google.zxing.*;
+import com.google.zxing.Reader;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.multi.GenericMultipleBarcodeReader;
+import com.google.zxing.multi.MultipleBarcodeReader;
+
+import javax.imageio.ImageIO;
+import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.*;
+
+/**
+ * 二维码生成工具类
+ *
+ * @author KisChang
+ * @version 1.0
+ * @date 2015年12月03日
+ * @since 1.0
+ */
+public class ZXingUtils {
+
+    public static enum ImageType {
+        JPEG("jpeg"),PNG("png"),GIF("gif");
+        private String value;
+
+        ImageType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    /**编码*/
+    public static class Encode {
+
+        private static Map<EncodeHintType, Object> HINTS;
+        static {
+            HINTS = new EnumMap<EncodeHintType,Object>(EncodeHintType.class);
+            HINTS.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        }
+        /**
+         * 生成二维码
+         * @param widthAndHeight    高宽
+         * @param content           二维码内容
+         * @param os                输出流
+         */
+        public static void buildQRCode(int widthAndHeight, String content, OutputStream os, ImageType imageType) throws WriterException, IOException {
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, widthAndHeight, widthAndHeight, HINTS);// 生成矩阵
+            MatrixToImageWriter.writeToStream(bitMatrix, imageType.getValue(), os);
+        }
+
+        public static void buildQRCode(String content, OutputStream os, ImageType imageType) throws WriterException, IOException {
+            buildQRCode(200, content, os, imageType);
+        }
+
+        /**
+         * 生成二维码
+         * @param widthAndHeight    高宽
+         * @param content           二维码内容
+         * @param filePath          输出目录
+         * @param fileName          输出文件名
+         * @param imageType         输出文件类型
+         */
+        public static void buildQRCode(int widthAndHeight, String content, String filePath, String fileName, ImageType imageType) throws WriterException, IOException {
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(content,
+                    BarcodeFormat.QR_CODE, widthAndHeight, widthAndHeight, HINTS);
+            Path path = FileSystems.getDefault().getPath(filePath, fileName);
+            MatrixToImageWriter.writeToPath(bitMatrix, imageType.getValue(), path);// 输出图像
+        }
+
+        public static void buildQRCode(String content, String filePath, String fileName, ImageType imageType) throws WriterException, IOException {
+            buildQRCode(200, content,filePath,fileName,imageType);
+        }
+    }
+
+
+    /**解码*/
+    public static class Decode {
+
+        private static final Map<DecodeHintType,Object> HINTS;
+        private static final Map<DecodeHintType,Object> HINTS_PURE;
+        static {
+            HINTS = new EnumMap<DecodeHintType,Object>(DecodeHintType.class);
+            HINTS.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+            HINTS.put(DecodeHintType.POSSIBLE_FORMATS, EnumSet.allOf(BarcodeFormat.class));
+            HINTS_PURE = new EnumMap<DecodeHintType,Object>(HINTS);
+            HINTS_PURE.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
+        }
+
+        /**
+         * 解析二维码
+         */
+        public static Collection<Result> readQRCode(File qrCode) throws ReaderException, IOException {
+            FileInputStream inputStream = new FileInputStream(qrCode);
+            return readQRCode(inputStream);
+        }
+
+        public static Collection<Result> readQRCode(InputStream inputStream) throws ReaderException, IOException {
+            LuminanceSource source = new BufferedImageLuminanceSource(ImageIO.read(inputStream));
+            BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+            Collection<Result> results = new ArrayList<Result>(1);
+            ReaderException savedException = null;
+            Reader reader = new MultiFormatReader();
+            try {
+                //寻找多个条码
+                MultipleBarcodeReader multiReader = new GenericMultipleBarcodeReader(reader);
+                Result[] theResults = multiReader.decodeMultiple(binaryBitmap, HINTS);
+                if (theResults != null) {
+                    results.addAll(Arrays.asList(theResults));
+                }
+            } catch (ReaderException re) {
+                savedException = re;
+            }
+
+            if (results.isEmpty()) {
+                try {
+                    //寻找纯条码
+                    Result theResult = reader.decode(binaryBitmap, HINTS_PURE);
+                    if (theResult != null) {
+                        results.add(theResult);
+                    }
+                } catch (ReaderException re) {
+                    savedException = re;
+                }
+            }
+
+            if (results.isEmpty()) {
+                try {
+                    //寻找图片中的正常条码
+                    Result theResult = reader.decode(binaryBitmap, HINTS);
+                    if (theResult != null) {
+                        results.add(theResult);
+                    }
+                } catch (ReaderException re) {
+                    savedException = re;
+                }
+            }
+
+            if (results.isEmpty()) {
+                try {
+                    //再次尝试其他特殊处理
+                    BinaryBitmap hybridBitmap = new BinaryBitmap(new HybridBinarizer(source));
+                    Result theResult = reader.decode(hybridBitmap, HINTS);
+                    if (theResult != null) {
+                        results.add(theResult);
+                    }
+                } catch (ReaderException re) {
+                    savedException = re;
+                }
+            }
+            if (results.isEmpty()){
+                throw savedException;
+            }else {
+                return results;
+            }
+        }
+
+
+        public static Result readQRCodeResult(File qrCode) throws ReaderException, IOException {
+            FileInputStream inputStream = new FileInputStream(qrCode);
+            return readQRCodeResult(inputStream);
+        }
+        public static Result readQRCodeResult(InputStream inputStream) throws ReaderException, IOException {
+            Collection<Result> results = readQRCode(inputStream);
+            if (!results.isEmpty()){
+                //寻找结果集中非空的结果
+                for (Result result : results){
+                    if (result != null){
+                        return result;
+                    }
+                }
+            }
+            throw NotFoundException.getNotFoundInstance();
+        }
+    }
+}
+```
+### MD5加密
+```
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class MD5 {
+
+    public static String getMD5(String str) throws NoSuchAlgorithmException {
+
+        // 生成一个MD5加密计算摘要
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        // 计算md5函数
+        md.update(str.getBytes());
+        // digest()最后确定返回md5 hash值，返回值为8为字符串。因为md5 hash值是16位的hex值，实际上就是8位的字符
+        // BigInteger函数则将8位的字符串转换成16位hex值，用字符串来表示；得到字符串形式的hash值
+        return new BigInteger(1, md.digest()).toString(16);
+
+    }
+}
+```
+### 读取excel
+依赖
+```
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17-beta1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.16-beta1</version>
+        </dependency>
+```
+工具类
+```
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+public class ReadExcelUtils {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Workbook wb;
+    private Sheet sheet;
+    private Row row;
+    public ReadExcelUtils(String filepath) {
+        if(filepath==null){
+            return;
+        }
+        String ext = filepath.substring(filepath.lastIndexOf("."));
+        try {
+            InputStream is = new FileInputStream(filepath);
+            if(".xls".equals(ext)){
+                wb = new HSSFWorkbook(is);
+            }else if(".xlsx".equals(ext)){
+                wb = new XSSFWorkbook(is);
+            }else{
+                wb=null;
+            }
+        } catch (FileNotFoundException e) {
+            logger.error("FileNotFoundException", e);
+        } catch (IOException e) {
+            logger.error("IOException", e);
+        }
+    }
+    /**
+     * 读取Excel表格表头的内容
+     * @return String 表头内容的数组
+     */
+    public String[] readExcelTitle() throws Exception{
+        if(wb==null){
+            throw new Exception("Workbook对象为空！");
+        }
+        sheet = wb.getSheetAt(0);
+        row = sheet.getRow(0);
+        // 标题总列数
+        int colNum = row.getPhysicalNumberOfCells();
+        String[] title = new String[colNum];
+        for (int i = 0; i < colNum; i++) {
+            // title[i] = getStringCellValue(row.getCell((short) i));
+            title[i] = row.getCell(i).getStringCellValue();
+        }
+        return title;
+    }
+    /**
+     * 读取Excel数据内容
+     * @return Map 包含单元格数据内容的Map对象
+     */
+    public Map<Integer, Map<Integer,Object>> readExcelContent() throws Exception{
+        if(wb==null){
+            throw new Exception("Workbook对象为空！");
+        }
+        Map<Integer, Map<Integer,Object>> content = new HashMap<Integer, Map<Integer,Object>>();
+        sheet = wb.getSheetAt(0);
+        // 得到总行数
+        int rowNum = sheet.getLastRowNum();
+        row = sheet.getRow(0);
+        int colNum = row.getPhysicalNumberOfCells();
+        // 正文内容应该从第二行开始,第一行为表头的标题
+        for (int i = 1; i <= rowNum; i++) {
+            row = sheet.getRow(i);
+            int j = 0;
+            Map<Integer,Object> cellValue = new HashMap<Integer, Object>();
+            while (j < colNum) {
+                Object obj = getCellFormatValue(row.getCell(j));
+                cellValue.put(j, obj);
+                j++;
+            }
+            content.put(i, cellValue);
+        }
+        return content;
+    }
+    /**
+     * 根据Cell类型设置数据
+     * @param cell
+     * @return Object
+     */
+    private Object getCellFormatValue(Cell cell) {
+        Object cellvalue = "";
+        if (cell != null) {
+            // 判断当前Cell的Type
+            switch (cell.getCellType()) {
+                case Cell.CELL_TYPE_NUMERIC:// 如果当前Cell的Type为NUMERIC
+                case Cell.CELL_TYPE_FORMULA: {
+                    // 判断当前的cell是否为Date
+                    if (DateUtil.isCellDateFormatted(cell)) {
+                        Date date = cell.getDateCellValue();
+                        SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd");
+                        cellvalue = dateformat.format(date);
+
+                    } else {
+                        // 如果是纯数字
+                        // 取得当前Cell的数值
+                        DecimalFormat df = new DecimalFormat("0");
+                        cellvalue = df.format(cell.getNumericCellValue());
+                    }
+                    break;
+                }
+                case Cell.CELL_TYPE_STRING:// 如果当前Cell的Type为STRING
+                    // 取得当前的Cell字符串
+                    cellvalue = cell.getRichStringCellValue().getString();
+                    break;
+                default:// 默认的Cell值
+                    cellvalue = "";
+            }
+        } else {
+            cellvalue = "";
+        }
+        return cellvalue;
+    }
+}
+```
+### 加密工具类
+```
+import java.security.Key;
+import java.security.spec.AlgorithmParameterSpec;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.IvParameterSpec;
+
+/**
+ * 加密解密工具包
+ */
+public class CyptoUtils {
+
+    public static final String ALGORITHM_DES = "DES/CBC/PKCS5Padding";
+
+    /**
+     * DES算法，加密
+     *
+     * @param data 待加密字符串
+     * @param key  加密私钥，长度不能够小于8位
+     * @return 加密后的字节数组，一般结合Base64编码使用
+     * @throws Exception
+     */
+    public static String encode(String key,String data) {
+        if(data == null)
+            return null;
+        try{
+            DESKeySpec dks = new DESKeySpec(key.getBytes());
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+            //key的长度不能够小于8位字节
+            Key secretKey = keyFactory.generateSecret(dks);
+            Cipher cipher = Cipher.getInstance(ALGORITHM_DES);
+            IvParameterSpec iv = new IvParameterSpec("12345678".getBytes());
+            AlgorithmParameterSpec paramSpec = iv;
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey,paramSpec);
+            byte[] bytes = cipher.doFinal(data.getBytes());
+            return byte2hex(bytes);
+        }catch(Exception e){
+            e.printStackTrace();
+            return data;
+        }
+    }
+
+    /**
+     * DES算法，解密
+     *
+     * @param data 待解密字符串
+     * @param key  解密私钥，长度不能够小于8位
+     * @return 解密后的字节数组
+     * @throws Exception 异常
+     */
+    public static String decode(String key,String data) {
+        if(data == null)
+            return null;
+        try {
+            DESKeySpec dks = new DESKeySpec(key.getBytes());
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+            //key的长度不能够小于8位字节
+            Key secretKey = keyFactory.generateSecret(dks);
+            Cipher cipher = Cipher.getInstance(ALGORITHM_DES);
+            IvParameterSpec iv = new IvParameterSpec("12345678".getBytes());
+            AlgorithmParameterSpec paramSpec = iv;
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, paramSpec);
+            return new String(cipher.doFinal(hex2byte(data.getBytes())));
+        } catch (Exception e){
+            e.printStackTrace();
+            return data;
+        }
+    }
+
+    /**
+     * 二行制转字符串
+     * @param b
+     * @return
+     */
+    private static String byte2hex(byte[] b) {
+        StringBuilder hs = new StringBuilder();
+        String stmp;
+        for (int n = 0; b!=null && n < b.length; n++) {
+            stmp = Integer.toHexString(b[n] & 0XFF);
+            if (stmp.length() == 1)
+                hs.append('0');
+            hs.append(stmp);
+        }
+        return hs.toString().toUpperCase();
+    }
+
+    private static byte[] hex2byte(byte[] b) {
+        if((b.length%2)!=0)
+            throw new IllegalArgumentException();
+        byte[] b2 = new byte[b.length/2];
+        for (int n = 0; n < b.length; n+=2) {
+            String item = new String(b,n,2);
+            b2[n/2] = (byte)Integer.parseInt(item,16);
+        }
+        return b2;
+    }
+}
+```
+### 压缩解压
+```
+import java.io.*;
+import java.util.Enumeration;
+import java.util.zip.*;
+
+public class CompressUtil {
+
+
+    static final int BUFFER = 8192;
+
+    public static void compress(String srcPath , String dstPath) throws IOException {
+        File srcFile = new File(srcPath);
+        File dstFile = new File(dstPath);
+        if (!srcFile.exists()) {
+            throw new FileNotFoundException(srcPath + "不存在！");
+        }
+
+        FileOutputStream out = null;
+        ZipOutputStream zipOut = null;
+        try {
+            out = new FileOutputStream(dstFile);
+            CheckedOutputStream cos = new CheckedOutputStream(out,new CRC32());
+            zipOut = new ZipOutputStream(cos);
+            String baseDir = "";
+            compress(srcFile, zipOut, baseDir);
+        }
+        finally {
+            if(null != zipOut){
+                zipOut.close();
+                out = null;
+            }
+
+            if(null != out){
+                out.close();
+            }
+        }
+    }
+
+    private static void compress(File file, ZipOutputStream zipOut, String baseDir) throws IOException{
+        if (file.isDirectory()) {
+            compressDirectory(file, zipOut, baseDir);
+        } else {
+            compressFile(file, zipOut, baseDir);
+        }
+    }
+
+    /** 压缩一个目录 */
+    private static void compressDirectory(File dir, ZipOutputStream zipOut, String baseDir) throws IOException{
+        File[] files = dir.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            compress(files[i], zipOut, baseDir + dir.getName() + "/");
+        }
+    }
+
+    /** 压缩一个文件 */
+    private static void compressFile(File file, ZipOutputStream zipOut, String baseDir)  throws IOException{
+        if (!file.exists()){
+            return;
+        }
+
+        BufferedInputStream bis = null;
+        try {
+            bis = new BufferedInputStream(new FileInputStream(file));
+            ZipEntry entry = new ZipEntry(baseDir + file.getName());
+            zipOut.putNextEntry(entry);
+            int count;
+            byte data[] = new byte[BUFFER];
+            while ((count = bis.read(data, 0, BUFFER)) != -1) {
+                zipOut.write(data, 0, count);
+            }
+
+        }finally {
+            if(null != bis){
+                bis.close();
+            }
+        }
+    }
+
+
+    public static void decompress(String zipFile , String dstPath)throws IOException{
+        File pathFile = new File(dstPath);
+        if(!pathFile.exists()){
+            pathFile.mkdirs();
+        }
+        ZipFile zip = new ZipFile(zipFile);
+        for(Enumeration entries = zip.entries(); entries.hasMoreElements();){
+            ZipEntry entry = (ZipEntry)entries.nextElement();
+            String zipEntryName = entry.getName();
+            InputStream in = null;
+            OutputStream out = null;
+            try{
+                in =  zip.getInputStream(entry);
+                String outPath = (dstPath+"/"+zipEntryName).replaceAll("\\*", "/");;
+                //判断路径是否存在,不存在则创建文件路径
+                File file = new File(outPath.substring(0, outPath.lastIndexOf('/')));
+                if(!file.exists()){
+                    file.mkdirs();
+                }
+                //判断文件全路径是否为文件夹,如果是上面已经上传,不需要解压
+                if(new File(outPath).isDirectory()){
+                    continue;
+                }
+
+                out = new FileOutputStream(outPath);
+                byte[] buf1 = new byte[1024];
+                int len;
+                while((len=in.read(buf1))>0){
+                    out.write(buf1,0,len);
+                }
+            }
+            finally {
+                if(null != in){
+                    in.close();
+                }
+
+                if(null != out){
+                    out.close();
+                }
+            }
+        }
+    }
+}
+```
+### 图片添加水印
+```
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+public class ImageMarkLogoByIcon {
+
+    /**
+     * 给图片添加水印
+     * @param iconPath 水印图片路径
+     * @param srcImgPath 源图片路径
+     * @param targerPath 目标图片路径
+     */
+    public static void markImageByIcon(String iconPath, String srcImgPath,
+                                       String targerPath) {
+        markImageByIcon(iconPath, srcImgPath, targerPath, null);
+    }
+
+    /**
+     * 给图片添加水印、可设置水印图片旋转角度
+     * @param iconPath 水印图片路径
+     * @param srcImgPath 源图片路径
+     * @param targerPath 目标图片路径
+     * @param degree 水印图片旋转角度
+     */
+    public static void markImageByIcon(String iconPath, String srcImgPath,
+                                       String targerPath, Integer degree) {
+        OutputStream os = null;
+        try {
+            Image srcImg = ImageIO.read(new File(srcImgPath));
+
+            BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),
+                    srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
+
+            // 得到画笔对象
+            // Graphics g= buffImg.getGraphics();
+            Graphics2D g = buffImg.createGraphics();
+
+            // 设置对线段的锯齿状边缘处理
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+
+            g.drawImage(srcImg.getScaledInstance(srcImg.getWidth(null), srcImg
+                    .getHeight(null), Image.SCALE_SMOOTH), 0, 0, null);
+
+            if (null != degree) {
+                // 设置水印旋转
+                g.rotate(Math.toRadians(degree),
+                        (double) buffImg.getWidth() / 2, (double) buffImg
+                                .getHeight() / 2);
+            }
+
+            // 水印图象的路径 水印一般为gif或者png的，这样可设置透明度
+            ImageIcon imgIcon = new ImageIcon(iconPath);
+
+            // 得到Image对象。
+            Image img = imgIcon.getImage();
+
+            float alpha = 0.5f; // 透明度
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
+                    alpha));
+
+            // 表示水印图片的位置
+            g.drawImage(img, 150, 300, null);
+
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+
+            g.dispose();
+
+            os = new FileOutputStream(targerPath);
+
+            // 生成图片
+            ImageIO.write(buffImg, "JPG", os);
+
+            System.out.println("图片完成添加Icon印章。。。。。。");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != os)
+                    os.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
