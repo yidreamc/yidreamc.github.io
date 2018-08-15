@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="google-site-verification" content="" />
+  
+  <title>js加载的顺序和时间问题</title>
+  <meta name="author" content="xmfaly">
+  <meta name="description" content="想写一个Chrome插件，但是在js加载时间上掌握不好，或者说以前从来没有考虑过这方面的问题，特意查了一下记录一下。
+多个js文件加载顺序三个js文件，依次引入123&amp;lt;script&amp;gt;alert(&amp;quot;A&amp;quot;);&amp;lt;/script&amp;gt;&amp;lt;script&amp;gt;ale">
+  
+  
+  <meta property="og:title" content="js加载的顺序和时间问题"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:site_name" content="惜凡"/>
+  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
+  <link rel="alternate" href="/atom.xml" title="惜凡" type="application/atom+xml">
+  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/m.min.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+  <a id="top"></a>
+  <div id="main">
+    <div class="behind">
+      <a href="/" class="back black-color">
+        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+            <path d="M2 30 L30 2 M30 30 L2 2"></path>
+        </svg>
+      </a>
+      <div class="description">
+        &nbsp;
+      </div>
+    </div>
+    <div class="container">
+      
+
+  <article class="standard post">
+    <div class="title">
+      
+  
+    <h1 class="page-title center">
+        js加载的顺序和时间问题
+    </h1>
+  
+
+
+    </div>
+    <div class="meta center">
+      
+<time datetime="2018-08-15T23:24:02.000Z">
+<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
+  </svg>
+  &nbsp;
+  2018-08-15
+</time>
+
+
+
+
+
+
+
+    </div>
+    <hr>
+    <div class="picture-container">
+      
+    </div>
+    <p>想写一个Chrome插件，但是在js加载时间上掌握不好，或者说以前从来没有考虑过这方面的问题，特意查了一下记录一下。</p>
+<h3 id="多个js文件加载顺序"><a href="#多个js文件加载顺序" class="headerlink" title="多个js文件加载顺序"></a>多个js文件加载顺序</h3><p>三个js文件，依次引入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(&quot;A&quot;);&lt;/script&gt;</span><br><span class="line">&lt;script&gt;alert(&quot;B&quot;);&lt;/script&gt;</span><br><span class="line">&lt;script&gt;alert(&quot;C&quot;);&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>三个文件的大小是第二个远远大于一三，最后的输出结果是ABC<br>这说明使用script标签默认是阻塞顺序执行的。<br>可以使用async去打破这种阻塞<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;alert(&quot;A&quot;);&lt;/script&gt;</span><br><span class="line">&lt;script async=&quot;true&quot;&gt;alert(&quot;B&quot;);&lt;/script&gt;</span><br><span class="line">&lt;script&gt;alert(&quot;C&quot;);&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这样的话就回输出ACB<br>使用了async之后，就不会组织后续文档的下载和执行，而本身使用async属性的js会在这个文件下载之后再执行。<br>使用以下的方式创建script标签等同于使用async属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var script = document.createElement(&quot;script&quot;);</span><br><span class="line">script.src = &quot;file.js&quot;;</span><br><span class="line">document.body.appendChild(script);</span><br></pre></td></tr></table></figure></p>
+<p>于async类似的还有一个defer属性，但是他们的实现原理完全不同。defer会确保脚本在文档解析之后执行，也就是DOMContentLoaded事件触发之前执行，如果有多个defer，那么这些defer会在文档解析之后顺序执行。其实平时所做的把script放到body之前写就是和defer实现一样的效果。</p>
+<h3 id="文档加载时间"><a href="#文档加载时间" class="headerlink" title="文档加载时间"></a>文档加载时间</h3><ul>
+<li>DOM ready是发生在dom的结构加载完成之后发生的，不包括图片等媒体信息的加载。</li>
+<li>DOMContentLoaded触发时机：文档加载并解析完毕，所有deferred脚本执行完毕。但此时图片和async脚本可能依旧在加载。</li>
+<li>DOM load实在dom加载之后发生的,也就是说整个文档图片媒体都加载完了再执行</li>
+</ul>
+
+
+  </article>
+  </script>
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  <div class="busuanzi center">
+    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
+    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
+    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
+  </div>
+
+
+
+
+    </div>
+  </div>
+  <footer class="page-footer"><div class="clearfix">
+</div>
+
+<div class="clearfix">
+</div>
+</footer>
+  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
+<script src="/js/search.min.js"></script>
+<script type="text/javascript">
+
+// disqus scripts
+
+
+// dropdown scripts
+$(".dropdown").click(function(event) {
+  var current = $(this);
+  event.stopPropagation();
+  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
+});
+$(document).click(function(){
+    $(".dropdown-content").removeClass("open");
+})
+
+var path = "/search.xml";
+searchFunc(path, 'local-search-input', 'local-search-result');
+
+</script>
+
+</body>
+</html>
