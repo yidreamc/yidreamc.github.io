@@ -1,7 +1,7 @@
 ---
 title: Spring Boot 读取配置文件中的List数据
 date: 2017-12-22 21:02:26
-tags: ['java','Spring Boot']
+tags: ['java','spring boot']
 ---
 在一个项目中需要配置一个允许请求的服务器列表，不想把这个列表直接写在代码里，希望写到配置文件里，于是查了一下Spring Boot 如何读取配置文件中的List数据。记录在这里，以后可能还会用到。
 配置如下。

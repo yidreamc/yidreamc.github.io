@@ -1,7 +1,7 @@
 ---
 title: 使用Spring Cloud搭建服务注册中心（二）
 date: 2017-12-23 21:58:36
-tags: ['Spring Cloud']
+tags: ['spring cloud']
 ---
 接上篇
 ### 服务提供
