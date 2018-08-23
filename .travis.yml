@@ -12,12 +12,13 @@ install:
 script:
   - hexo generate
 after_success:
+  - cp README.md ./public/
   - cd ./public
   - git init
   - git config --global user.name 'yidreamc'
   - git config --global user.email 'yidreamc@gmail.com'
   - git add --all
-  - git commit -m "update"
+  - git commit -m "travis-ci deploy"
   - git push https://$REPO_TOKEN@github.com/yidreamc/yidreamc.github.io.git master
 env:
   global:
