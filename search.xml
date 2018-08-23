@@ -3,6 +3,21 @@
   
     
     <entry>
+      <title>自己实现一个模态框</title>
+      <link href="/2018/08/23/%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%A8%A1%E6%80%81%E6%A1%86/"/>
+      <url>/2018/08/23/%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%A8%A1%E6%80%81%E6%A1%86/</url>
+      <content type="html"><![CDATA[<p>面试中被问到如何实现一个模态框，当场懵逼，现在这么多的开源样式库，组件库,在这么方便的条件下我从来没有考虑过这种问题。<br>回来之后静下心来仔细考虑了一下这个问题，其实也没有什么难的，给我一定的时间我应该可以在不查资料的情况下完成。 就抽空自己做了一个。<a href="https://www.yidreamc.ml/project/demo-css/modal/" target="_blank" rel="noopener">效果图</a><br>一个模态框一般由头部、内容区、尾部三个部分组成。其中头部一个标题，一个关闭图标，尾部一般时两个在右下角部分的按钮组成。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;modal&quot; class=&quot;modal&quot;&gt;</span><br><span class="line">&lt;div class=&quot;dialog&quot;&gt;</span><br><span class="line">&lt;header class=&quot;dialog-header&quot;&gt;</span><br><span class="line">&lt;h3&gt;title&lt;/h3&gt;</span><br><span class="line">&lt;span id=&quot;close&quot;&gt;&amp;times;&lt;/span&gt;</span><br><span class="line">&lt;/header&gt;</span><br><span class="line">&lt;div class=&quot;dialog-content&quot;&gt;</span><br><span class="line">content</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;footer class=&quot;dialog-footer&quot;&gt;</span><br><span class="line">&lt;div class=&quot;btn-box&quot;&gt;</span><br><span class="line">&lt;button id=&quot;cancel&quot; class=&quot;btn&quot;&gt;取消&lt;/button&gt;</span><br><span class="line">&lt;button class=&quot;btn btn-primary&quot;&gt;确认&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/footer&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p><p>模态框打开之后，会覆盖整个页面，除了中间的对话框，周围应该时类似灰色的那种半透明效果占了整个屏幕。知道了这些之后对应的样式就很好写了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.modal &#123;</span><br><span class="line">background-color: rgba(0, 0, 0, .5);</span><br><span class="line">position: fixed;</span><br><span class="line">z-index: 1000;</span><br><span class="line">left: 0;</span><br><span class="line">top: 0;</span><br><span class="line">bottom: 0;</span><br><span class="line">right: 0;</span><br><span class="line">transition: all .5s ease-out 0s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>对话框大概在屏幕的正中间，水平居中可以使用margin来解决，垂直位置的定位可以用trasform来搞定<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.dialog &#123;</span><br><span class="line">margin: 0 auto;</span><br><span class="line">transform: translate(0, 40%);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>其他的部分就是完全的调样式了。</p>]]></content>
+      
+      
+        <tags>
+            
+            <tag> css </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>搭建travis-ci的本地构建环境</title>
       <link href="/2018/08/20/%E6%90%AD%E5%BB%BAtravis-ci%E7%9A%84%E6%9C%AC%E5%9C%B0%E6%9E%84%E5%BB%BA%E7%8E%AF%E5%A2%83/"/>
       <url>/2018/08/20/%E6%90%AD%E5%BB%BAtravis-ci%E7%9A%84%E6%9C%AC%E5%9C%B0%E6%9E%84%E5%BB%BA%E7%8E%AF%E5%A2%83/</url>
