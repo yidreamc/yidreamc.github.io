@@ -3,6 +3,21 @@
   
     
     <entry>
+      <title>Number()、parseInt()、parseFloat()区别</title>
+      <link href="/2018/08/28/Number-%E3%80%81parseInt-%E3%80%81parseFloat-%E5%8C%BA%E5%88%AB/"/>
+      <url>/2018/08/28/Number-%E3%80%81parseInt-%E3%80%81parseFloat-%E5%8C%BA%E5%88%AB/</url>
+      <content type="html"><![CDATA[<p>这三个函数都可以把非数值转换成数值</p><h3 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h3><ul><li>布尔<code>true</code>转换1，<code>false</code> 0</li><li>数字返回本身</li><li><code>null</code>返回0</li><li><code>undefined</code>返回<code>NaN</code></li><li>字符串<ul><li>忽略字符串前后空格</li><li>字符串为空返回0</li><li>如果字符串中只含数字，会返回对应的数字，并且会忽略前导0</li><li>可以正确处理<code>0x</code>、<code>0b</code>、<code>0o</code>等前导，返回对应的10进制值</li><li>可以正确转换浮点数</li><li>如果含非法字符返回<code>NaN</code></li></ul></li><li>对象调用<code>valueOf()</code>方法按照前面的规对返回值则进行转换，如果返回<code>NaN</code>会继续调用<code>toString()</code>方法对返回值进行转换<h3 id="parseInt"><a href="#parseInt" class="headerlink" title="parseInt"></a>parseInt</h3></li><li>布尔返回<code>NaN</code></li><li><code>null</code>返回<code>NaN</code></li><li><code>undefinded</code>返回<code>NaN</code></li><li>对象返回`NaN</li><li>数字返回整数部分</li><li>字符串<ul><li>忽略前后的空格</li><li>从第一个不是空格的字符开始判断，如果不是数字字符或正负号直接返回<code>NaN</code></li><li>遇到第一个非数字字符会进行返回之前转换成功的部分</li><li>可以正确处理<code>0x</code>、<code>0b</code>、<code>0o</code>等前导，返回对应的10进制值</li><li>使用第二个参数控制转换的进制<h3 id="parseFloat"><a href="#parseFloat" class="headerlink" title="parseFloat"></a>parseFloat</h3></li></ul></li><li>可以解析浮点数</li><li>只能返回10进制</li><li>浮点数返回本身</li><li>其他同<code>parseInt()</code></li></ul>]]></content>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>worktree解决多支依赖不同的问题</title>
       <link href="/2018/08/24/worktree%E8%A7%A3%E5%86%B3%E5%A4%9A%E6%94%AF%E4%BE%9D%E8%B5%96%E4%B8%8D%E5%90%8C%E7%9A%84%E9%97%AE%E9%A2%98/"/>
       <url>/2018/08/24/worktree%E8%A7%A3%E5%86%B3%E5%A4%9A%E6%94%AF%E4%BE%9D%E8%B5%96%E4%B8%8D%E5%90%8C%E7%9A%84%E9%97%AE%E9%A2%98/</url>
