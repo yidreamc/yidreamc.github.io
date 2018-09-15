@@ -1,6 +1,6 @@
 # 头部菜单，title: link
 menu:
-  Whoami: /whoami
+  Whoami: /about
   Github: https://github.com/yidreamc
   # Twitter: https://twitter.com/FechinLi
 
@@ -27,7 +27,7 @@ scrollbar: true
 # Gitalk 评论插件（https://github.com/gitalk/gitalk）
 gitalk:
     # 是否自动展开评论框
-    autoExpand: false
+    autoExpand: true
     # 应用编号
     clientID: 'b13f1c99b04e2cb032ba'
     # 应用秘钥

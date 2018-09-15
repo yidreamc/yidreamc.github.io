@@ -6,7 +6,8 @@
     "version": "3.7.1"
   },
   "scripts": {
-    "build": "gulp"
+    "build": "gulp",
+    "rename": "node source/img/cover/rename.js"
   },
   "dependencies": {
     "hexo": "^3.2.0",
