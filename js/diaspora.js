@@ -472,7 +472,7 @@ $(function() {
                   repo: comment.data('r'),
                   owner: comment.data('o'),
                   admin: comment.data('a'),
-                  id: $('.title')[0].text,
+                  id: $('#title').text(),
                   distractionFreeMode: comment.data('d'),
                   createIssueManually: true,  
                 })
