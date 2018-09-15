@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "gulp",
-    "rename": "node source/img/cover/rename.js"
+    "rename": "node scripts/rename.js"
   },
   "dependencies": {
     "hexo": "^3.2.0",
