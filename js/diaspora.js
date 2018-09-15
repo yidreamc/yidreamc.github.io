@@ -472,8 +472,9 @@ $(function() {
                   repo: comment.data('r'),
                   owner: comment.data('o'),
                   admin: comment.data('a'),
-                  id: location.pathname,
-                  distractionFreeMode: comment.data('d')
+                  id: $('.title')[0].text,
+                  distractionFreeMode: comment.data('d'),
+                  createIssueManually: true,  
                 })
                 $(".comment").removeClass("link")
                 gitalk.render('gitalk-container')
