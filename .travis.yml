@@ -10,7 +10,7 @@ before_install:
 install:
   - npm install
 script:
-  - hexo generate
+  - npm run build
 after_success:
   - cp README.md ./public/
   - cd ./public
