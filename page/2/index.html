@@ -1,611 +1,271 @@
-<!DOCTYPE HTML>
-<html>
+
+<!DOCTYPE html>
+<html lang="" class="loading">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="google-site-verification" content="" />
-  
-  <title>page</title>
-  <meta name="author" content="yidreamc">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:site_name" content="追梦"/>
-  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
-  <link rel="alternate" href="/atom.xml" title="追梦" type="application/atom+xml">
-  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/m.min.css">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>追梦</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="expo是一组工具，库和服务，可让通过编写JavaScript来构建原生iOS和Android应用程序，现在react-native中就用的他。但我发现一个问题，明明正常的网络，但是就是连接不上。我,"> 
+    <meta name="author" content="yidreamc"> 
+    <link rel="alternative" href="atom.xml" title="追梦" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
 </head>
 
-<body>
-  <a id="top"></a>
-  <div id="main">
-    <div class="behind">
-      <a href="/" class="back black-color">
-        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-            <path d="M2 30 L30 2 M30 30 L2 2"></path>
-        </svg>
-      </a>
-      <div class="description">
-        &nbsp;
-      </div>
-    </div>
-    <div class="container">
-      <nav class="navigator"><nav class="navbar navbar-default navbar-fixed-top">
-  <div class="nav-container">
-
-
-  
-  <div id="site_search" class="">
-  <input type="text" id="local-search-input" name="q" placeholder="search" class="form-control"/>
-</div>
-<div id="local-search-result"></div>
-
-
-  <ul class="nav navbar-nav navbar-right">
-    <li class="dropdown">
-      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-        <svg class="i-link" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-          <path d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"></path>
-        </svg>
-      </a>
-      <ul class="dropdown-content">
+<body class="loading">
+    <div id="loader"></div>
+    <div class="nav">
+    <ul id="menu-menu" class="menu">
         
-          <li>
-            <a href="/links.html">
-        友情链接
-      </a>
-    </li>
-     
-          <li>
-            <a href="https://github.com/yidreamc/">
-        Github
-      </a>
-    </li>
-     
-          <li>
-            <a href="/">
-        关于我
-      </a>
-    </li>
-     
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/whoami/" title="Whoami" target="_blank" rel="noopener">Whoami</a>
+        </li>
+        
+        <li class="  menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="https://github.com/Fechin" title="Github" target="_blank" rel="noopener">Github</a>
+        </li>
+        
+        <li class="  menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="https://twitter.com/FechinLi" title="Twitter" target="_blank" rel="noopener">Twitter</a>
+        </li>
+        
     </ul>
-    </li>
-    <li class="archives"><a href="/archives">
-      <svg class="i-archive" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-        <path d="M4 10 L4 28 28 28 28 10 M2 4 L2 10 30 10 30 4 Z M12 15 L20 15"></path>
-      </svg>
-    </a></li>
-  </ul>
-  </div>
-</nav></nav>
-<ul class="posts">
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/06/10/合成10/">
-            合成10
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    合成10是一个DOM小游戏，创意并不是我的，这个是我很久以前在网上看到的，他的游戏机制类似于1024。
-
-每次点击合成会把相邻的数字合成一个更大数字。前几天闲来无事的时候，我把它移植到了微信小程序上了。因为微信对小游戏的管控比较严格，我在分
-  
-  <a href="/2018/06/10/合成10/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-06-10T21:09:17.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  06-10
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+    <p id="copyright">
+        &copy; 2018 yidreamc.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme <a href="https://github.com/Fechin/hexo-theme-diaspora" title="Diaspora" target="_blank" rel="noopener">Diaspora</a>
+        by Fechin
+    </p>
 </div>
-<hr>
 
-
-
-
-  
+<div id="container">
     
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/05/06/java自定义排序/">
-            java自定义排序
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    遇到过很多次了，种于狠下心总结一下，免得以后每次都要再找。java自定义排序有两个Object对象，o1和o2（this相当于o1），如果返回负值则把o1插到o2前面，如果返回正值，把o1放到o2后面，如果返回0保持原来顺序不变。
-排序有两
-  
-  <a href="/2018/05/06/java自定义排序/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
+<div id="screen">
+    <div id="mark">
+        <div class="layer" data-depth="0.4">
+            <img src="/img/welcome-cover.jpg" id="cover" crossorigin="anonymous" width="1920" height="1080">
+        </div>
+    </div>
+    <div id="vibrant">
+        <svg viewBox="0 0 2880 1620" height="100%" preserveAspectRatio="xMaxYMax slice">
+            <polygon opacity="0.7" points="2000,1620 0,1620 0,0 600,0 "/>
+        </svg>
+        <div></div>
+    </div>
+    <div id="header">
+        <div>
+            <a class="image-logo" href="/"></a>
+            <div class="icon-menu switchmenu"></div>
+        </div>
+    </div>
     
-<time datetime="2018-05-06T22:42:49.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  05-06
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+    <div id="post0">
+        <p>九月 04, 2018</p>
+        <h2><a href="/2018/09/04/解决expo不会挑选网络的问题/" title="解决expo不会挑选网络的问题" class="posttitle">解决expo不会挑选网络的问题</a></h2>
+        <p class="summary">expo是一组工具，库和服务，可让通过编写JavaScript来构建原生iOS和Android应用程序，现在rea...</p>
+    </div>
+    
 </div>
-<hr>
 
+    <div id="primary">
+        
+<div class="post">
+    <a href="/2018/06/10/合成10/" title="合成10">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>六月 10, 2018</p>
+        <h3><a href="/2018/06/10/合成10/" title="合成10" class="posttitle">合成10</a></h3>
+        <p>合成10是一个DOM小游戏，创意并不是我的，这个是我很久以前在网上看到的，他的游戏机制类似于1024。
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/04/24/spring-boot使用多线程/">
-            spring boot使用多线程
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    最近遇到一个难题，我需要在boot项目中开一个监视器，监视器中需要用到dao接口，spring boot的dao是依赖注入进去的，并不能手动new出来，如果是常规的方法先建线程的话，dao注入不进去，查了很多网站，想了很多办法最后找到了解决
-  
-  <a href="/2018/04/24/spring-boot使用多线程/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-04-24T09:20:48.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  04-24
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+每次点击合成会把相邻的数字合成一个更大数字。前几...</p>
+    </div>
 </div>
-<hr>
 
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/04/06/spring-boot注入静态变量/">
-            spring-boot注入静态变量
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    之前遇到过一次，当时刚开始玩spring-boot不知道该怎么搜索关键字没解决，今天又遇到了。一个项目需要配置一个系统代理，需要在spring的启动文件里配置，因为代码是开源的，但代理的地址我不太想让别人看到，写到配置文件里注入的时候遇到了
-  
-  <a href="/2018/04/06/spring-boot注入静态变量/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-04-06T11:24:41.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  04-06
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+<div class="post">
+    <a href="/2018/05/06/java自定义排序/" title="java自定义排序">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>五月 06, 2018</p>
+        <h3><a href="/2018/05/06/java自定义排序/" title="java自定义排序" class="posttitle">java自定义排序</a></h3>
+        <p>遇到过很多次了，种于狠下心总结一下，免得以后每次都要再找。java自定义排序有两个Object对象，o1和o2（this相当于o1），如果返回负值则把o1...</p>
+    </div>
 </div>
-<hr>
 
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/04/01/关于docker部署spring-boot的尝试/">
-            关于docker部署spring-boot的尝试
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    最近搬家一个服务器，发现要安装好多好多的环境，相当麻烦。以前我也经常重装电脑，后来觉得麻烦就把我的开发环境都弄到了虚拟机里面，一方面linux环境，另一方面也不用反复重装。想到这里我想到了被我遗忘很久的docker了。可以在服务器上只安装d
-  
-  <a href="/2018/04/01/关于docker部署spring-boot的尝试/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-04-01T07:41:02.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  04-01
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+<div class="post">
+    <a href="/2018/04/24/spring-boot使用多线程/" title="spring boot使用多线程">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>四月 24, 2018</p>
+        <h3><a href="/2018/04/24/spring-boot使用多线程/" title="spring boot使用多线程" class="posttitle">spring boot使用多线程</a></h3>
+        <p>最近遇到一个难题，我需要在boot项目中开一个监视器，监视器中需要用到dao接口，spring boot的dao是依赖注入进去的，并不能手动new出来，如...</p>
+    </div>
 </div>
-<hr>
 
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/03/25/关于掌上联创的探索/">
-            关于掌上联创的探索
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    我们学校使用了联创打印系统，应该好多学校都在用，他们提供了一个客户端，我们下载之后在本地打印，之后到打印机刷卡取走打印的东西。这个系统对于以前去学校外面排队打印而言相当方便。我使用这个系统的主要场景就是打印课件，很多时候老师前天把课件发给我
-  
-  <a href="/2018/03/25/关于掌上联创的探索/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-03-25T03:51:00.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  03-25
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+<div class="post">
+    <a href="/2018/04/06/spring-boot注入静态变量/" title="spring-boot注入静态变量">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>四月 06, 2018</p>
+        <h3><a href="/2018/04/06/spring-boot注入静态变量/" title="spring-boot注入静态变量" class="posttitle">spring-boot注入静态变量</a></h3>
+        <p>之前遇到过一次，当时刚开始玩spring-boot不知道该怎么搜索关键字没解决，今天又遇到了。一个项目需要配置一个系统代理，需要在spring的启动文件里...</p>
+    </div>
 </div>
-<hr>
 
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/03/13/求1-2-3-4-n/">
-            求1+2+3+4+...+n
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    今晚遇到一个好巧妙地题，题本身不是很难，但是感觉思想很棒。
-
-求1+2+3+…+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
-
-不能使用乘除循环的话，很容易可以想到
-  
-  <a href="/2018/03/13/求1-2-3-4-n/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-03-13T23:47:34.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  03-13
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+<div class="post">
+    <a href="/2018/04/01/关于docker部署spring-boot的尝试/" title="关于docker部署spring-boot的尝试">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>四月 01, 2018</p>
+        <h3><a href="/2018/04/01/关于docker部署spring-boot的尝试/" title="关于docker部署spring-boot的尝试" class="posttitle">关于docker部署spring-boot的尝试</a></h3>
+        <p>最近搬家一个服务器，发现要安装好多好多的环境，相当麻烦。以前我也经常重装电脑，后来觉得麻烦就把我的开发环境都弄到了虚拟机里面，一方面linux环境，另一方...</p>
+    </div>
 </div>
-<hr>
 
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/02/27/两个栈实现队列/">
-            两个栈实现队列
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    2018年3月23更新经学弟提醒入队的时候并不需要保证栈2为空，可以存在两个栈同时不空的情况。对于栈2的处理不变，栈1直接入栈即可。如果按照原答案的话，出队需要都移到栈2，入队需要都移到栈1，如果反复出队一个，入队一个就会浪费大量时间在移动
-  
-  <a href="/2018/02/27/两个栈实现队列/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-02-27T03:37:05.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  02-27
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+<div class="post">
+    <a href="/2018/03/25/关于掌上联创的探索/" title="关于掌上联创的探索">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>三月 25, 2018</p>
+        <h3><a href="/2018/03/25/关于掌上联创的探索/" title="关于掌上联创的探索" class="posttitle">关于掌上联创的探索</a></h3>
+        <p>我们学校使用了联创打印系统，应该好多学校都在用，他们提供了一个客户端，我们下载之后在本地打印，之后到打印机刷卡取走打印的东西。这个系统对于以前去学校外面排...</p>
+    </div>
 </div>
-<hr>
 
 
+<div class="post">
+    <a href="/2018/03/13/求1-2-3-4-n/" title="求1+2+3+4+...+n">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>三月 13, 2018</p>
+        <h3><a href="/2018/03/13/求1-2-3-4-n/" title="求1+2+3+4+...+n" class="posttitle">求1+2+3+4+...+n</a></h3>
+        <p>今晚遇到一个好巧妙地题，题本身不是很难，但是感觉思想很棒。
 
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/01/11/maven笔记/">
-            maven笔记
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    以前也没有系统的看过maven的资料，一般就是用它来添加依赖，但最近惨遭maven的折磨，经常性的编译通过，但运行的时候出现ClassNotFoundException或者NoClassDefFoundError之类的错误，终于痛下决心，想
-  
-  <a href="/2018/01/11/maven笔记/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-01-11T23:24:21.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  01-11
-</time>
-
-
-
-
-
-
-    
-    &nbsp;
-    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <circle cx="24" cy="8" r="2"></circle>
-      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
-    </svg>
-    &nbsp;
-    <a href="/tags/java/">java</a>
-
-
-  </div>
-</li>
+求1+2+3+…+n，要求不能使用乘除法、for、while、if、else、switch、...</p>
+    </div>
 </div>
-<hr>
 
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2018/01/07/java枚举笔记/">
-            java枚举笔记
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    定义枚举枚举使用关键字enum定义，枚举值一般使用大写字母，值之间用逗号隔开。例如定义一个颜色的枚举。123public enum  Color &#123;    YELLOW,RED,GREEN,BLACK&#125;
-枚举使用枚举可以
-  
-  <a href="/2018/01/07/java枚举笔记/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2018-01-07T18:55:27.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  01-07
-</time>
-
-
-
-
-
-
-    
-    &nbsp;
-    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <circle cx="24" cy="8" r="2"></circle>
-      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
-    </svg>
-    &nbsp;
-    <a href="/tags/java/">java</a>
-
-
-  </div>
-</li>
+<div class="post">
+    <a href="/2018/02/27/两个栈实现队列/" title="两个栈实现队列">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>二月 27, 2018</p>
+        <h3><a href="/2018/02/27/两个栈实现队列/" title="两个栈实现队列" class="posttitle">两个栈实现队列</a></h3>
+        <p>2018年3月23更新经学弟提醒入队的时候并不需要保证栈2为空，可以存在两个栈同时不空的情况。对于栈2的处理不变，栈1直接入栈即可。如果按照原答案的话，出...</p>
+    </div>
 </div>
-<hr>
 
 
+<div class="post">
+    <a href="/2018/01/11/maven笔记/" title="maven笔记">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>一月 11, 2018</p>
+        <h3><a href="/2018/01/11/maven笔记/" title="maven笔记" class="posttitle">maven笔记</a></h3>
+        <p>以前也没有系统的看过maven的资料，一般就是用它来添加依赖，但最近惨遭maven的折磨，经常性的编译通过，但运行的时候出现ClassNotFoundEx...</p>
+    </div>
+</div>
 
 
-  
-</ul>
-<ul class="pager">
-    <a class="extend prev" rel="prev" href="/">Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next</a>
-</ul>
+<div class="post">
+    <a href="/2018/01/07/java枚举笔记/" title="java枚举笔记">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>一月 07, 2018</p>
+        <h3><a href="/2018/01/07/java枚举笔记/" title="java枚举笔记" class="posttitle">java枚举笔记</a></h3>
+        <p>定义枚举枚举使用关键字enum定义，枚举值一般使用大写字母，值之间用逗号隔开。例如定义一个颜色的枚举。123public enum  Color &#12...</p>
+    </div>
+</div>
 
 
     </div>
-  </div>
-  <footer class="page-footer"><div class="clearfix">
+    
+    <div id="pager"><a href="/page/3/" class="more">加载更多</a></div>
+    
 </div>
-
-<div class="clearfix">
-</div>
-</footer>
-  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
-<script src="/js/search.min.js"></script>
-<script type="text/javascript">
-
-// disqus scripts
-
-
-// dropdown scripts
-$(".dropdown").click(function(event) {
-  var current = $(this);
-  event.stopPropagation();
-  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
-});
-$(document).click(function(){
-    $(".dropdown-content").removeClass("open");
-})
-
-var path = "/search.xml";
-searchFunc(path, 'local-search-input', 'local-search-result');
-
-</script>
+<div id="preview"></div>
 
 </body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 </html>

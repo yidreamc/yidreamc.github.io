@@ -1,93 +1,58 @@
-<!DOCTYPE HTML>
-<html>
+
+<!DOCTYPE html>
+<html lang="" class="loading">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="google-site-verification" content="" />
-  
-  <title>使用poi读写excel</title>
-  <meta name="author" content="yidreamc">
-  <meta name="description" content="首先了解以下excel文件怎么和poi中的组件对应起来的。　　
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>追梦</title>
 
-一个Excel文件对应于一个Workbook对象
-一个Workbook可以有多个Sheet对象
-一个Sheet对象由多个Row对象组成
-一个Row对象是由多个Cell对象组成 
-
-基于以上几条，如果想对excel文件进行读写的话就要
-">
-  
-  
-  <meta property="og:title" content="使用poi读写excel"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:site_name" content="追梦"/>
-  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
-  <link rel="alternate" href="/atom.xml" title="追梦" type="application/atom+xml">
-  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/m.min.css">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="expo是一组工具，库和服务，可让通过编写JavaScript来构建原生iOS和Android应用程序，现在react-native中就用的他。但我发现一个问题，明明正常的网络，但是就是连接不上。我,"> 
+    <meta name="author" content="yidreamc"> 
+    <link rel="alternative" href="atom.xml" title="追梦" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
 </head>
 
-<body>
-  <a id="top"></a>
-  <div id="main">
-    <div class="behind">
-      <a href="/" class="back black-color">
-        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-            <path d="M2 30 L30 2 M30 30 L2 2"></path>
-        </svg>
-      </a>
-      <div class="description">
-        &nbsp;
-      </div>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">使用poi读写excel</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
     </div>
-    <div class="container">
-      
-
-  <article class="standard post">
-    <div class="title">
-      
-  
-    <h1 class="page-title center">
-        使用poi读写excel
-    </h1>
-  
-
-
-    </div>
-    <div class="meta center">
-      
-<time datetime="2017-10-08T00:17:32.000Z">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  2017-10-08
-</time>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">使用poi读写excel</h1>
+        <div class="stuff">
+            <span>十月 08, 2017</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/java/">java</a></li></ul>
 
 
-
-
-
-
-    
-    &nbsp;
-    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <circle cx="24" cy="8" r="2"></circle>
-      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
-    </svg>
-    &nbsp;
-    <a href="/tags/java/">java</a>
-
-
-    </div>
-    <hr>
-    <div class="picture-container">
-      
-    </div>
-    <p>首先了解以下excel文件怎么和poi中的组件对应起来的。　　</p>
+        </div>
+        <div class="content markdown">
+            <p>首先了解以下excel文件怎么和poi中的组件对应起来的。　　</p>
 <ul>
 <li>一个Excel文件对应于一个Workbook对象</li>
 <li>一个Workbook可以有多个Sheet对象</li>
@@ -109,49 +74,98 @@
 <p><img src="/img/8297579-2024e73c2e8adf72.png" alt="image.png"></p>
 <p>当然也可以根据文件扩展名自动选择使用哪个子类生成Workbook对象，这里直接封一个util工具类，方便以后直接使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.poi.hssf.usermodel.HSSFWorkbook;</span><br><span class="line">import org.apache.poi.ss.usermodel.*;</span><br><span class="line">import org.apache.poi.xssf.usermodel.XSSFWorkbook;</span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line"></span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.FileNotFoundException;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.util.Date;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">public class ReadExcelUtils &#123;</span><br><span class="line"></span><br><span class="line">    private Logger logger = LoggerFactory.getLogger(ReadExcelUtils.class);</span><br><span class="line"></span><br><span class="line">    private Workbook wb;</span><br><span class="line">    private Sheet sheet;</span><br><span class="line">    private Row row;</span><br><span class="line"></span><br><span class="line">    public ReadExcelUtils(String filepath) &#123;</span><br><span class="line">        if(filepath==null)&#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        String ext = filepath.substring(filepath.lastIndexOf(&quot;.&quot;));</span><br><span class="line">        try &#123;</span><br><span class="line">            InputStream is = new FileInputStream(filepath);</span><br><span class="line">            if(&quot;.xls&quot;.equals(ext))&#123;</span><br><span class="line">                wb = new HSSFWorkbook(is);</span><br><span class="line">            &#125;else if(&quot;.xlsx&quot;.equals(ext))&#123;</span><br><span class="line">                wb = new XSSFWorkbook(is);</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                wb=null;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (FileNotFoundException e) &#123;</span><br><span class="line">            logger.error(&quot;FileNotFoundException&quot;, e);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            logger.error(&quot;IOException&quot;, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 读取Excel表格表头的内容</span><br><span class="line">     * @return String 表头内容的数组</span><br><span class="line">     */</span><br><span class="line">    public String[] readExcelTitle() throws Exception&#123;</span><br><span class="line">        if(wb==null)&#123;</span><br><span class="line">            throw new Exception(&quot;Workbook对象为空！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        sheet = wb.getSheetAt(0);</span><br><span class="line">        row = sheet.getRow(0);</span><br><span class="line">        // 标题总列数</span><br><span class="line">        int colNum = row.getPhysicalNumberOfCells();</span><br><span class="line"></span><br><span class="line">        String[] title = new String[colNum];</span><br><span class="line">        for (int i = 0; i &lt; colNum; i++) &#123;</span><br><span class="line">            // title[i] = getStringCellValue(row.getCell((short) i));</span><br><span class="line">            title[i] = row.getCell(i).getStringCellValue();</span><br><span class="line">        &#125;</span><br><span class="line">        return title;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 读取Excel数据内容</span><br><span class="line">     * @return Map 包含单元格数据内容的Map对象</span><br><span class="line">     */</span><br><span class="line">    public Map&lt;Integer, Map&lt;Integer,Object&gt;&gt; readExcelContent() throws Exception&#123;</span><br><span class="line">        if(wb==null)&#123;</span><br><span class="line">            throw new Exception(&quot;Workbook对象为空！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        Map&lt;Integer, Map&lt;Integer,Object&gt;&gt; content = new HashMap&lt;Integer, Map&lt;Integer,Object&gt;&gt;();</span><br><span class="line"></span><br><span class="line">        sheet = wb.getSheetAt(0);</span><br><span class="line">        // 得到总行数</span><br><span class="line">        int rowNum = sheet.getLastRowNum();</span><br><span class="line">        row = sheet.getRow(0);</span><br><span class="line">        int colNum = row.getPhysicalNumberOfCells();</span><br><span class="line"></span><br><span class="line">        // 正文内容应该从第二行开始,第一行为表头的标题</span><br><span class="line">        for (int i = 1; i &lt;= rowNum; i++) &#123;</span><br><span class="line">            row = sheet.getRow(i);</span><br><span class="line">            int j = 0;</span><br><span class="line">            Map&lt;Integer,Object&gt; cellValue = new HashMap&lt;Integer, Object&gt;();</span><br><span class="line">            while (j &lt; colNum) &#123;</span><br><span class="line">                Object obj = getCellFormatValue(row.getCell(j));</span><br><span class="line">                cellValue.put(j, obj);</span><br><span class="line">                j++;</span><br><span class="line">            &#125;</span><br><span class="line">            content.put(i, cellValue);</span><br><span class="line">        &#125;</span><br><span class="line">        return content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据Cell类型设置数据</span><br><span class="line">     * @param cell</span><br><span class="line">     * @return Object</span><br><span class="line">     */</span><br><span class="line">    private Object getCellFormatValue(Cell cell) &#123;</span><br><span class="line">        Object cellvalue = &quot;&quot;;</span><br><span class="line">        if (cell != null) &#123;</span><br><span class="line"></span><br><span class="line">            // 判断当前Cell的Type</span><br><span class="line">            switch (cell.getCellType()) &#123;</span><br><span class="line">                case Cell.CELL_TYPE_NUMERIC:// 如果当前Cell的Type为NUMERIC</span><br><span class="line">                case Cell.CELL_TYPE_FORMULA: &#123;</span><br><span class="line">                    // 判断当前的cell是否为Date</span><br><span class="line">                    if (DateUtil.isCellDateFormatted(cell)) &#123;</span><br><span class="line">                        // 如果是Date类型则，转化为Data格式</span><br><span class="line">                        // data格式是带时分秒的：2013-7-10 0:00:00</span><br><span class="line">                        // cellvalue = cell.getDateCellValue().toLocaleString();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                        // data格式是不带带时分秒的：2013-7-10</span><br><span class="line">                        Date date = cell.getDateCellValue();</span><br><span class="line">                        cellvalue = date;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        // 如果是纯数字</span><br><span class="line">                        // 取得当前Cell的数值</span><br><span class="line">                        cellvalue = String.valueOf(cell.getNumericCellValue());</span><br><span class="line">                    &#125;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">                case Cell.CELL_TYPE_STRING:// 如果当前Cell的Type为STRING</span><br><span class="line">                    // 取得当前的Cell字符串</span><br><span class="line">                    cellvalue = cell.getRichStringCellValue().getString();</span><br><span class="line">                    break;</span><br><span class="line">                default:// 默认的Cell值</span><br><span class="line">                    cellvalue = &quot;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            cellvalue = &quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return cellvalue;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
-
-  </article>
-  </script>
-    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-  </script>
-  <div class="busuanzi center">
-    page PV:&nbsp;<span id="busuanzi_value_page_pv"></span>&nbsp;・&nbsp;
-    site PV:&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;・&nbsp;
-    site UV:&nbsp;<span id="busuanzi_value_site_uv"></span>
-  </div>
-
-
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                    
+                        <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
 
 
     </div>
-  </div>
-  <footer class="page-footer"><div class="clearfix">
+    
 </div>
 
-<div class="clearfix">
+
+    </div>
 </div>
-</footer>
-  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
-<script src="/js/search.min.js"></script>
-<script type="text/javascript">
-
-// disqus scripts
-
-
-// dropdown scripts
-$(".dropdown").click(function(event) {
-  var current = $(this);
-  event.stopPropagation();
-  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
-});
-$(document).click(function(){
-    $(".dropdown-content").removeClass("open");
-})
-
-var path = "/search.xml";
-searchFunc(path, 'local-search-input', 'local-search-result');
-
-</script>
-
 </body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 </html>

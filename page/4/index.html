@@ -1,444 +1,222 @@
-<!DOCTYPE HTML>
-<html>
+
+<!DOCTYPE html>
+<html lang="" class="loading">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="google-site-verification" content="" />
-  
-  <title>page</title>
-  <meta name="author" content="yidreamc">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:site_name" content="追梦"/>
-  <link href="/apple-touch-icon-precomposed.png" sizes="180x180" rel="apple-touch-icon-precomposed">
-  <link rel="alternate" href="/atom.xml" title="追梦" type="application/atom+xml">
-  <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/m.min.css">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>追梦</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="expo是一组工具，库和服务，可让通过编写JavaScript来构建原生iOS和Android应用程序，现在react-native中就用的他。但我发现一个问题，明明正常的网络，但是就是连接不上。我,"> 
+    <meta name="author" content="yidreamc"> 
+    <link rel="alternative" href="atom.xml" title="追梦" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
 </head>
 
-<body>
-  <a id="top"></a>
-  <div id="main">
-    <div class="behind">
-      <a href="/" class="back black-color">
-        <svg class="i-close" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-            <path d="M2 30 L30 2 M30 30 L2 2"></path>
-        </svg>
-      </a>
-      <div class="description">
-        &nbsp;
-      </div>
-    </div>
-    <div class="container">
-      <nav class="navigator"><nav class="navbar navbar-default navbar-fixed-top">
-  <div class="nav-container">
-
-
-  
-  <div id="site_search" class="">
-  <input type="text" id="local-search-input" name="q" placeholder="search" class="form-control"/>
-</div>
-<div id="local-search-result"></div>
-
-
-  <ul class="nav navbar-nav navbar-right">
-    <li class="dropdown">
-      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-        <svg class="i-link" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-          <path d="M18 8 C18 8 24 2 27 5 30 8 29 12 24 16 19 20 16 21 14 17 M14 24 C14 24 8 30 5 27 2 24 3 20 8 16 13 12 16 11 18 15"></path>
-        </svg>
-      </a>
-      <ul class="dropdown-content">
+<body class="loading">
+    <div id="loader"></div>
+    <div class="nav">
+    <ul id="menu-menu" class="menu">
         
-          <li>
-            <a href="/links.html">
-        友情链接
-      </a>
-    </li>
-     
-          <li>
-            <a href="https://github.com/yidreamc/">
-        Github
-      </a>
-    </li>
-     
-          <li>
-            <a href="/">
-        关于我
-      </a>
-    </li>
-     
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/whoami/" title="Whoami" target="_blank" rel="noopener">Whoami</a>
+        </li>
+        
+        <li class="  menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="https://github.com/Fechin" title="Github" target="_blank" rel="noopener">Github</a>
+        </li>
+        
+        <li class="  menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="https://twitter.com/FechinLi" title="Twitter" target="_blank" rel="noopener">Twitter</a>
+        </li>
+        
     </ul>
-    </li>
-    <li class="archives"><a href="/archives">
-      <svg class="i-archive" viewBox="0 0 32 32" width="22" height="22" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-        <path d="M4 10 L4 28 28 28 28 10 M2 4 L2 10 30 10 30 4 Z M12 15 L20 15"></path>
-      </svg>
-    </a></li>
-  </ul>
-  </div>
-</nav></nav>
-<ul class="posts">
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2017/11/10/Nginx反向代理尝试/">
-            Nginx反向代理尝试
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    和我一起做一个项目的前端小伙伴需要一个https的接口，后端是java做的，因为某些原因不能直接在java项目上配置https，最后想到用反向代理来解决这个问题。用户访问代理的服务器，然后由代理服务器转发给后台，并转发结构给用户。我在代理服
-  
-  <a href="/2017/11/10/Nginx反向代理尝试/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2017-11-10T15:19:12.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  11-10
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+    <p id="copyright">
+        &copy; 2018 yidreamc.
+        Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        Theme <a href="https://github.com/Fechin/hexo-theme-diaspora" title="Diaspora" target="_blank" rel="noopener">Diaspora</a>
+        by Fechin
+    </p>
 </div>
-<hr>
 
-
-
-
-  
+<div id="container">
     
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2017/11/08/spring-boot-配置-https-ssl/">
-            spring boot 配置 https|ssl
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    ssl证书我选择了免费的Let’s Encrypt
-1.下载脚本并生成证书123# git clone https://github.com/letsencrypt/letsencrypt# cd letsencrypt# ./letsen
-  
-  <a href="/2017/11/08/spring-boot-配置-https-ssl/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
+<div id="screen">
+    <div id="mark">
+        <div class="layer" data-depth="0.4">
+            <img src="/img/welcome-cover.jpg" id="cover" crossorigin="anonymous" width="1920" height="1080">
+        </div>
+    </div>
+    <div id="vibrant">
+        <svg viewBox="0 0 2880 1620" height="100%" preserveAspectRatio="xMaxYMax slice">
+            <polygon opacity="0.7" points="2000,1620 0,1620 0,0 600,0 "/>
+        </svg>
+        <div></div>
+    </div>
+    <div id="header">
+        <div>
+            <a class="image-logo" href="/"></a>
+            <div class="icon-menu switchmenu"></div>
+        </div>
+    </div>
     
-<time datetime="2017-11-08T17:52:00.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  11-08
-</time>
-
-
-
-
-
-
+    <div id="post0">
+        <p>九月 04, 2018</p>
+        <h2><a href="/2018/09/04/解决expo不会挑选网络的问题/" title="解决expo不会挑选网络的问题" class="posttitle">解决expo不会挑选网络的问题</a></h2>
+        <p class="summary">expo是一组工具，库和服务，可让通过编写JavaScript来构建原生iOS和Android应用程序，现在rea...</p>
+    </div>
     
-    &nbsp;
-    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <circle cx="24" cy="8" r="2"></circle>
-      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
-    </svg>
-    &nbsp;
-    <a href="/tags/java/">java</a>
-
-
-  </div>
-</li>
 </div>
-<hr>
 
-
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2017/10/20/Java工具类整理/">
-            Java工具类整理
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    以下整理常用的java工具类。
-二维码生成和解析(网上很多接口也很方便)使用google的zxing12345&lt;dependency&gt;	&lt;groupId&gt;com.google.zxing&lt;/groupId&gt
-  
-  <a href="/2017/10/20/Java工具类整理/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2017-10-20T15:50:16.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  10-20
-</time>
-
-
-
-
-
-
-    
-    &nbsp;
-    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <circle cx="24" cy="8" r="2"></circle>
-      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
-    </svg>
-    &nbsp;
-    <a href="/tags/java/">java</a>
-
-
-  </div>
-</li>
+    <div id="primary">
+        
+<div class="post">
+    <a href="/2017/11/10/Nginx反向代理尝试/" title="Nginx反向代理尝试">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>十一月 10, 2017</p>
+        <h3><a href="/2017/11/10/Nginx反向代理尝试/" title="Nginx反向代理尝试" class="posttitle">Nginx反向代理尝试</a></h3>
+        <p>和我一起做一个项目的前端小伙伴需要一个https的接口，后端是java做的，因为某些原因不能直接在java项目上配置https，最后想到用反向代理来解决这...</p>
+    </div>
 </div>
-<hr>
 
 
+<div class="post">
+    <a href="/2017/11/08/spring-boot-配置-https-ssl/" title="spring boot 配置 https|ssl">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>十一月 08, 2017</p>
+        <h3><a href="/2017/11/08/spring-boot-配置-https-ssl/" title="spring boot 配置 https|ssl" class="posttitle">spring boot 配置 https|ssl</a></h3>
+        <p>ssl证书我选择了免费的Let’s Encrypt
+1.下载脚本并生成证书123# git clone https://github.com/letsen...</p>
+    </div>
+</div>
 
 
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2017/10/08/使用poi读写excel/">
-            使用poi读写excel
-        </a>
-    </h1>
-  
+<div class="post">
+    <a href="/2017/10/20/Java工具类整理/" title="Java工具类整理">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>十月 20, 2017</p>
+        <h3><a href="/2017/10/20/Java工具类整理/" title="Java工具类整理" class="posttitle">Java工具类整理</a></h3>
+        <p>以下整理常用的java工具类。
+二维码生成和解析(网上很多接口也很方便)使用google的zxing12345&lt;dependency&gt;	&lt...</p>
+    </div>
+</div>
 
 
-  <div class="excerpt">
-  
-    首先了解以下excel文件怎么和poi中的组件对应起来的。　　
+<div class="post">
+    <a href="/2017/10/08/使用poi读写excel/" title="使用poi读写excel">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>十月 08, 2017</p>
+        <h3><a href="/2017/10/08/使用poi读写excel/" title="使用poi读写excel" class="posttitle">使用poi读写excel</a></h3>
+        <p>首先了解以下excel文件怎么和poi中的组件对应起来的。　　
 
 一个Excel文件对应于一个Workbook对象
-一个Workbook可以有多个Sheet对象
-一个Sheet对象由多个Row对象组成
-一个Row对象是由多个Cell对象组成
-  
-  <a href="/2017/10/08/使用poi读写excel/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2017-10-08T00:17:32.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  10-08
-</time>
-
-
-
-
-
-
-    
-    &nbsp;
-    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <circle cx="24" cy="8" r="2"></circle>
-      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
-    </svg>
-    &nbsp;
-    <a href="/tags/java/">java</a>
-
-
-  </div>
-</li>
+一个Workbook可以有多个Shee...</p>
+    </div>
 </div>
-<hr>
 
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2017/10/06/使用Service部署Spring Boot/">
-            使用Service部署Spring Boot
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    手动部署Spring Boot 的部署很简单，无论使用maven还是gradle构建成jar包之后，上传到服务器上，运行 java -jar *.jar 即可完成简单的部署。如果想使用外部的配置文件直接在后面加参数就行了  --spring
-  
-  <a href="/2017/10/06/使用Service部署Spring Boot/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2017-10-06T17:04:41.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  10-06
-</time>
-
-
-
-
-
-
-    
-    &nbsp;
-    <svg class="i-tag" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-      <circle cx="24" cy="8" r="2"></circle>
-      <path d="M2 18 L18 2 30 2 30 14 14 30 Z"></path>
-    </svg>
-    &nbsp;
-    <a href="/tags/spring/">spring</a>
-
-
-  </div>
-</li>
+<div class="post">
+    <a href="/2017/10/06/使用Service部署Spring Boot/" title="使用Service部署Spring Boot">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>十月 06, 2017</p>
+        <h3><a href="/2017/10/06/使用Service部署Spring Boot/" title="使用Service部署Spring Boot" class="posttitle">使用Service部署Spring Boot</a></h3>
+        <p>手动部署Spring Boot 的部署很简单，无论使用maven还是gradle构建成jar包之后，上传到服务器上，运行 java -jar *.jar ...</p>
+    </div>
 </div>
-<hr>
 
 
-
-
-  
-    
-<div>
-<li class="post-item">
-  
-  
-    <h1 class="index-title">
-        <a href="/2017/09/21/腾讯云做ss转发/">
-            腾讯云做ss转发
-        </a>
-    </h1>
-  
-
-
-  <div class="excerpt">
-  
-    刚开始用的是版瓦工的服务器，后来因为一些原因账号不能用了，如果还想用的话，还要再申请账号，还要再买，虽然版瓦工很便宜，但是最近手头相当紧呀，也不想再太折腾，于是就买了个70块钱一年的ss账号。链接我就不放了，谷歌搜一下ss账号第一个就是。这
-  
-  <a href="/2017/09/21/腾讯云做ss转发/">
-    more
-  </a>
-  </div>
-  <div class="index-meta">
-    
-<time datetime="2017-09-21T22:39:05.000Z" itemprop="datePublished">
-<svg class="i-calendar" viewBox="0 0 32 32" width="14" height="14" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-    <path d="M2 6 L2 30 30 30 30 6 Z M2 15 L30 15 M7 3 L7 9 M13 3 L13 9 M19 3 L19 9 M25 3 L25 9"></path>
-  </svg>
-  &nbsp;
-  09-21
-</time>
-
-
-
-
-
-
-
-  </div>
-</li>
+<div class="post">
+    <a href="/2017/09/21/腾讯云做ss转发/" title="腾讯云做ss转发">
+        <img src="/img/cover.jpg" class="cover" width="680" height="440">
+    </a>
+    <div class="else">
+        <p>九月 21, 2017</p>
+        <h3><a href="/2017/09/21/腾讯云做ss转发/" title="腾讯云做ss转发" class="posttitle">腾讯云做ss转发</a></h3>
+        <p>刚开始用的是版瓦工的服务器，后来因为一些原因账号不能用了，如果还想用的话，还要再申请账号，还要再买，虽然版瓦工很便宜，但是最近手头相当紧呀，也不想再太折腾...</p>
+    </div>
 </div>
-<hr>
-
-
-
-
-  
-</ul>
-<ul class="pager">
-    <a class="extend prev" rel="prev" href="/page/3/">Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
-</ul>
 
 
     </div>
-  </div>
-  <footer class="page-footer"><div class="clearfix">
+    
 </div>
-
-<div class="clearfix">
-</div>
-</footer>
-  <script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
-<script src="/js/search.min.js"></script>
-<script type="text/javascript">
-
-// disqus scripts
-
-
-// dropdown scripts
-$(".dropdown").click(function(event) {
-  var current = $(this);
-  event.stopPropagation();
-  $(current).children(".dropdown-content")[($(current).children(".dropdown-content").hasClass("open"))?'removeClass':'addClass']("open")
-});
-$(document).click(function(){
-    $(".dropdown-content").removeClass("open");
-})
-
-var path = "/search.xml";
-searchFunc(path, 'local-search-input', 'local-search-result');
-
-</script>
+<div id="preview"></div>
 
 </body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 </html>
