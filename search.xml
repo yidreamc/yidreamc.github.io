@@ -3,6 +3,21 @@
   
     
     <entry>
+      <title>自己实现call,apply,bind</title>
+      <link href="/2018/09/16/%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0call-apply-bind/"/>
+      <url>/2018/09/16/%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0call-apply-bind/</url>
+      <content type="html"><![CDATA[<p>js的<code>call</code>和<code>apply</code>都可以改变this指向,调用函数，两者的作用相同，只是传参的方式不同。<code>bind</code>可以改变this指向，创建函数。也就是说<code>call</code>和<code>apply</code>改变指向之后会执行<code>bind</code>不会。</p><ul><li><code>call(obj, arg1, arg2, ...)</code></li><li><code>apply(obj,[arg1, arg2, ...])</code></li><li><code>bind(obj, arg1, arg2, ...)</code><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3>改变<code>this</code>的指向，就是在新的对象加要执行的函数，调用结束之后删除。</li></ul><h3 id="call-实现"><a href="#call-实现" class="headerlink" title="call 实现"></a><code>call</code> 实现</h3><pre><code class="js">Function.prototype.myCall = function (context) {    context = context || window;    // 给context添加一个新属性 值为调用者    context.fn = this;    // 取出其他参数    const args = [...arguments].slice(1);    // 调用函数    const result = context.fn(...args);    delete context.fn;    return result;}</code></pre><h3 id="apply实现"><a href="#apply实现" class="headerlink" title="apply实现"></a><code>apply</code>实现</h3><pre><code class="js">Function.prototype.myApply = function (context) {    context = context || window;    // 给context添加一个新属性 值为调用者    context.fn = this;    // 取出其他参数    const args = arguments[1];    // 调用函数    const result = context.fn(...args);    delete context.fn;    return result;}</code></pre><h3 id="bind-实现"><a href="#bind-实现" class="headerlink" title="bind 实现"></a><code>bind</code> 实现</h3><pre><code class="js">Function.prototype.myBind = function (context) {    let _this = this;    let args = [...arguments].slice(1);    return function F() {        if (this instanceof F) {            return new _this(...args);        }        return _this.call(context,...args);    }}</code></pre>]]></content>
+      
+      
+        <tags>
+            
+            <tag> js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>换个主题换个心情</title>
       <link href="/2018/09/16/%E6%8D%A2%E4%B8%AA%E4%B8%BB%E9%A2%98%E6%8D%A2%E4%B8%AA%E5%BF%83%E6%83%85/"/>
       <url>/2018/09/16/%E6%8D%A2%E4%B8%AA%E4%B8%BB%E9%A2%98%E6%8D%A2%E4%B8%AA%E5%BF%83%E6%83%85/</url>
@@ -653,9 +668,9 @@
     
     <entry>
       <title></title>
-      <link href="/plugins/hljs/dark.css"/>
-      <url>/plugins/hljs/dark.css</url>
-      <content type="html"><![CDATA[/*Dark style from softwaremaniacs.org (c) Ivan Sagalaev <maniac@softwaremaniacs.org>*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #444;}.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-section,.hljs-link {  color: white;}.hljs,.hljs-subst {  color: #ddd;}.hljs-string,.hljs-title,.hljs-name,.hljs-type,.hljs-attribute,.hljs-symbol,.hljs-bullet,.hljs-built_in,.hljs-addition,.hljs-variable,.hljs-template-tag,.hljs-template-variable {  color: #d88;}.hljs-comment,.hljs-quote,.hljs-deletion,.hljs-meta {  color: #777;}.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-title,.hljs-section,.hljs-doctag,.hljs-type,.hljs-name,.hljs-strong {  font-weight: bold;}.hljs-emphasis {  font-style: italic;}</maniac@softwaremaniacs.org>]]></content>
+      <link href="/plugins/hljs/codepen-embed.css"/>
+      <url>/plugins/hljs/codepen-embed.css</url>
+      <content type="html"><![CDATA[/*  codepen.io Embed Theme  Author: Justin Perry <http: github.com="" ourmaninamsterdam="">  Original theme - https://github.com/chriskempson/tomorrow-theme*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #222;  color: #fff;}.hljs-comment,.hljs-quote {  color: #777;}.hljs-variable,.hljs-template-variable,.hljs-tag,.hljs-regexp,.hljs-meta,.hljs-number,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-params,.hljs-symbol,.hljs-bullet,.hljs-link,.hljs-deletion {  color: #ab875d;}.hljs-section,.hljs-title,.hljs-name,.hljs-selector-id,.hljs-selector-class,.hljs-type,.hljs-attribute {  color: #9b869b;}.hljs-string,.hljs-keyword,.hljs-selector-tag,.hljs-addition {  color: #8f9c6c;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}</http:>]]></content>
     </entry>
     
     <entry>
@@ -996,9 +1011,9 @@
     
     <entry>
       <title></title>
-      <link href="/plugins/hljs/codepen-embed.css"/>
-      <url>/plugins/hljs/codepen-embed.css</url>
-      <content type="html"><![CDATA[/*  codepen.io Embed Theme  Author: Justin Perry <http: github.com="" ourmaninamsterdam="">  Original theme - https://github.com/chriskempson/tomorrow-theme*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #222;  color: #fff;}.hljs-comment,.hljs-quote {  color: #777;}.hljs-variable,.hljs-template-variable,.hljs-tag,.hljs-regexp,.hljs-meta,.hljs-number,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-params,.hljs-symbol,.hljs-bullet,.hljs-link,.hljs-deletion {  color: #ab875d;}.hljs-section,.hljs-title,.hljs-name,.hljs-selector-id,.hljs-selector-class,.hljs-type,.hljs-attribute {  color: #9b869b;}.hljs-string,.hljs-keyword,.hljs-selector-tag,.hljs-addition {  color: #8f9c6c;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}</http:>]]></content>
+      <link href="/plugins/hljs/dark.css"/>
+      <url>/plugins/hljs/dark.css</url>
+      <content type="html"><![CDATA[/*Dark style from softwaremaniacs.org (c) Ivan Sagalaev <maniac@softwaremaniacs.org>*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #444;}.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-section,.hljs-link {  color: white;}.hljs,.hljs-subst {  color: #ddd;}.hljs-string,.hljs-title,.hljs-name,.hljs-type,.hljs-attribute,.hljs-symbol,.hljs-bullet,.hljs-built_in,.hljs-addition,.hljs-variable,.hljs-template-tag,.hljs-template-variable {  color: #d88;}.hljs-comment,.hljs-quote,.hljs-deletion,.hljs-meta {  color: #777;}.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-title,.hljs-section,.hljs-doctag,.hljs-type,.hljs-name,.hljs-strong {  font-weight: bold;}.hljs-emphasis {  font-style: italic;}</maniac@softwaremaniacs.org>]]></content>
     </entry>
     
     <entry>

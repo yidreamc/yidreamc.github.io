@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="" class="loading"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no"><title>追梦</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="google" content="notranslate"><meta name="keywords" content="yidreamc,"><meta name="author" content="yidreamc"><link rel="alternative" href="atom.xml" title="追梦" type="application/atom+xml"><link rel="icon" href="/img/favicon.png"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><link rel="stylesheet" href="/css/diaspora.css"><link href="/plugins/hljs/atom-one-dark.css" rel="stylesheet"><link rel="stylesheet" href="/styles/css/main.css"></head><body class="loading"><div id="loader"></div><div id="single"><div id="top" style="display:block"><div class="bar" style="width:0"></div><a class="icon-home image-icon" href="javascript:;"></a><h3 class="subtitle">自己实现call,apply,bind</h3><div class="social"></div><div class="scrollbar"></div></div><div class="section"><div class="article"><div class="main"><h1 id="title" class="title">自己实现call,apply,bind</h1><div class="stuff"> <span>九月 16, 2018</span><ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/js/">js</a></li></ul></div><div class="content markdown"><p>js的<code>call</code>和<code>apply</code>都可以改变this指向,调用函数，两者的作用相同，只是传参的方式不同。<code>bind</code>可以改变this指向，创建函数。也就是说<code>call</code>和<code>apply</code>改变指向之后会执行<code>bind</code>不会。</p><ul><li><code>call(obj, arg1, arg2, ...)</code></li><li><code>apply(obj,[arg1, arg2, ...])</code></li><li><code>bind(obj, arg1, arg2, ...)</code><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3>改变<code>this</code>的指向，就是在新的对象加要执行的函数，调用结束之后删除。</li></ul><h3 id="call-实现"><a href="#call-实现" class="headerlink" title="call 实现"></a><code>call</code> 实现</h3><pre><code class="js">Function.prototype.myCall = function (context) {
+    context = context || window;
+    // 给context添加一个新属性 值为调用者
+    context.fn = this;
+    // 取出其他参数
+    const args = [...arguments].slice(1);
+    // 调用函数
+    const result = context.fn(...args);
+    delete context.fn;
+    return result;
+}
+
+</code></pre><h3 id="apply实现"><a href="#apply实现" class="headerlink" title="apply实现"></a><code>apply</code>实现</h3><pre><code class="js">Function.prototype.myApply = function (context) {
+    context = context || window;
+    // 给context添加一个新属性 值为调用者
+    context.fn = this;
+    // 取出其他参数
+    const args = arguments[1];
+    // 调用函数
+    const result = context.fn(...args);
+    delete context.fn;
+    return result;
+}
+</code></pre><h3 id="bind-实现"><a href="#bind-实现" class="headerlink" title="bind 实现"></a><code>bind</code> 实现</h3><pre><code class="js">Function.prototype.myBind = function (context) {
+    let _this = this;
+    let args = [...arguments].slice(1);
+
+    return function F() {
+        if (this instanceof F) {
+            return new _this(...args);
+        }
+        return _this.call(context,...args);
+    }
+}
+</code></pre><!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]--><audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false"><source type="audio/mpeg" src=""></audio><ul id="audio-list" style="display:none"><li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li></ul></div><div id="gitalk-container" class="comment link" data-ae="true" data-ci="b13f1c99b04e2cb032ba" data-cs="8b5cec5e81b3ab9ff1b533046e66f15650d0e98c" data-r="yidreamc.github.io" data-o="yidreamc" data-a="yidreamc" data-d="false">查看评论</div></div><div class="side"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现原理"><span class="toc-number">1.</span> <span class="toc-text">实现原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call-实现"><span class="toc-number">2.</span> <span class="toc-text">call 实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apply实现"><span class="toc-number">3.</span> <span class="toc-text">apply实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bind-实现"><span class="toc-number">4.</span> <span class="toc-text">bind 实现</span></a></li></ol></div></div></div></div></body><script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script><script src="/js/plugin.js"></script><script src="/js/diaspora.js"></script><link rel="stylesheet" href="/photoswipe/photoswipe.css"><link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css"><script src="/photoswipe/photoswipe.min.js"></script><script src="/photoswipe/photoswipe-ui-default.min.js"></script><div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"><div class="pswp__bg"></div><div class="pswp__scroll-wrap"><div class="pswp__container"><div class="pswp__item"></div><div class="pswp__item"></div><div class="pswp__item"></div></div><div class="pswp__ui pswp__ui--hidden"><div class="pswp__top-bar"><div class="pswp__counter"></div> <button class="pswp__button pswp__button--close" title="Close (Esc)"></button> <button class="pswp__button pswp__button--share" title="Share"></button> <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class="pswp__preloader"><div class="pswp__preloader__icn"><div class="pswp__preloader__cut"><div class="pswp__preloader__donut"></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class="pswp__share-tooltip"></div></div> <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button> <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class="pswp__caption"><div class="pswp__caption__center"></div></div></div></div></div><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script><script>hljs.initHighlightingOnLoad()</script></html>
