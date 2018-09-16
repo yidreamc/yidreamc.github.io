@@ -1,1 +1,221 @@
-<!DOCTYPE html><html lang="" class="loading"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no"><title>追梦</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="google" content="notranslate"><meta name="keywords" content="yidreamc,"><meta name="author" content="yidreamc"><link rel="alternative" href="atom.xml" title="追梦" type="application/atom+xml"><link rel="icon" href="/img/favicon.png"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><link rel="stylesheet" href="/css/diaspora.css"></head><body class="loading"><div id="loader"></div><div id="single"><div id="top" style="display:block"><div class="bar" style="width:0"></div><a class="icon-home image-icon" href="javascript:;"></a><h3 class="subtitle">自己实现一个简单的ioc容器</h3><div class="social"></div><div class="scrollbar"></div></div><div class="section"><div class="article"><div class="main"><h1 id="title" class="title">自己实现一个简单的ioc容器</h1><div class="stuff"> <span>十一月 26, 2017</span><ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/java/">java</a></li></ul></div><div class="content markdown"><p>某节实验课的任务是练习使用spring的ioc，因为之前用过，感觉也没啥意思，就想了以下他的实现原理，然后自己使用java反射机制实现了一个简单的ioc容器。以下对原理进行简单的说明，完整的代码及用法详见<a href="https://github.com/xmfaly/simpleioc" target="_blank" rel="noopener">xmfaly/simpleioc</a></p><p>首先定义@Autowired注解用于自动注入<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.FIELD)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">public @interface Autowired &#123;</span><br><span class="line"></span><br><span class="line">    Class&lt;?&gt; value() default Class.class;</span><br><span class="line"></span><br><span class="line">    String name() default &quot;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>建立一个<code>Container</code>容器类<br>建立两个<code>map</code>分别保存类名和bean、对象名和类名的关系<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 保存所有bean 格式为 类名 : bean</span><br><span class="line">private Map&lt;String, Object&gt; beans;</span><br><span class="line"></span><br><span class="line">// 存储对象和类名的关系 对象名 ：bean</span><br><span class="line">private Map&lt;String, Object&gt; beanKeys;</span><br></pre></td></tr></table></figure><p></p><p>这里为了安全起见，使用<code>ConcurrentHashMap()</code>实例化这两个<code>map</code><br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public Container()&#123;</span><br><span class="line">    beans = new ConcurrentHashMap&lt;String, Object&gt;();</span><br><span class="line">    beanKeys = new ConcurrentHashMap&lt;String, String&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>向容器内注册bean，这里我重载了三种形式，当然也可以更多，关键看使用的场景了。<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * 以class的形式注册</span><br><span class="line">   */</span><br><span class="line">  public Object registerBean(Class&lt;?&gt; cls) &#123;</span><br><span class="line">      String className = cls.getName();</span><br><span class="line">      Object bean = null;</span><br><span class="line"></span><br><span class="line">      try &#123;</span><br><span class="line">          bean = cls.newInstance();</span><br><span class="line">      &#125; catch (InstantiationException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125; catch (IllegalAccessException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line">      beans.put(className, bean);</span><br><span class="line"></span><br><span class="line">      //不指定对象名的情况下类名和对象名相同</span><br><span class="line">      beanKeys.put(className, bean);</span><br><span class="line">      return bean;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 以bean的形式注册</span><br><span class="line">   */</span><br><span class="line">  public Object registerBean(Object bean) &#123;</span><br><span class="line">      String className = bean.getClass().getName();</span><br><span class="line">      beans.put(className, bean);</span><br><span class="line">      beanKeys.put(className, bean);</span><br><span class="line">      return bean;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 以带对象名的class形式注册</span><br><span class="line">   */</span><br><span class="line">  public Object registerBean(String name, Class&lt;?&gt; cls) &#123;</span><br><span class="line">      String className = cls.getName();</span><br><span class="line">      Object bean = null;</span><br><span class="line"></span><br><span class="line">      try &#123;</span><br><span class="line">          bean = cls.newInstance();</span><br><span class="line">      &#125; catch (InstantiationException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125; catch (IllegalAccessException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      beans.put(className, bean);</span><br><span class="line">      beanKeys.put(name, bean);</span><br><span class="line">      return bean;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 注册一个带名称的Bean到容器中</span><br><span class="line">   */</span><br><span class="line">  public Object registerBean(String name, Object bean) &#123;</span><br><span class="line">      String className = bean.getClass().getName();</span><br><span class="line">      beans.put(className, bean);</span><br><span class="line">      beanKeys.put(name, bean);</span><br><span class="line">      return bean;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure><p></p><p>从容器中取出bean<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * 通过 Class 对象获取bean</span><br><span class="line">  */</span><br><span class="line"> public &lt;T&gt; T getBean(Class&lt;?&gt; cls) &#123;</span><br><span class="line">     String className = cls.getName();</span><br><span class="line">     Object object = beans.get(className);</span><br><span class="line">     if (null != object) &#123;</span><br><span class="line">         return (T) object;</span><br><span class="line">     &#125;</span><br><span class="line">     return null;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> /**</span><br><span class="line">  * 通过对象名获取 bean</span><br><span class="line">  */</span><br><span class="line"> public &lt;T&gt; T getBeanByName(String name) &#123;</span><br><span class="line">     Object object = beanKeys.get(name);;</span><br><span class="line">     if (null != object) &#123;</span><br><span class="line">         return (T) object;</span><br><span class="line">     &#125;</span><br><span class="line">     return null;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure><p></p><p>在容器启动的时候遍历容器内的所有bean对bean进行注入<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * 初始化</span><br><span class="line">   */</span><br><span class="line">  public void init() &#123;</span><br><span class="line">      Iterator&lt;Map.Entry&lt;String, Object&gt;&gt; it = beans.entrySet().iterator();</span><br><span class="line">      while (it.hasNext()) &#123;</span><br><span class="line">          Map.Entry&lt;String, Object&gt; entry = it.next();</span><br><span class="line">          Object object = entry.getValue();</span><br><span class="line">          injection(object);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure><p></p><p>其中使用到的方法的实现<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"> /**</span><br><span class="line"> * 注入</span><br><span class="line"> */</span><br><span class="line">public void injection(Object object) &#123;</span><br><span class="line">    Field[] fields = object.getClass().getDeclaredFields();</span><br><span class="line">    try &#123;</span><br><span class="line"></span><br><span class="line">        //遍历所有属性寻找@Autowired注解</span><br><span class="line">        for (Field field : fields) &#123;</span><br><span class="line">            Autowired autowired = field.getAnnotation(Autowired.class);</span><br><span class="line">            if (null != autowired) &#123;</span><br><span class="line"></span><br><span class="line">                // 要注入的字段</span><br><span class="line">                Object autoWritedField = null;</span><br><span class="line">                String name = autowired.name();</span><br><span class="line"></span><br><span class="line">                if (!name.equals(&quot;&quot;)) &#123;</span><br><span class="line">                    Object bean = beanKeys.get(name);</span><br><span class="line">                    if (null != bean ) &#123;</span><br><span class="line">                        autoWritedField = bean;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                    if (null == autoWritedField) &#123;</span><br><span class="line">                        throw new RuntimeException(&quot;Unable to autoWrited &quot; + name);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    if (autowired.value() == Class.class) &#123;</span><br><span class="line">                        //该属性的Type</span><br><span class="line">                        autoWritedField = recursiveAssembly(field.getType());</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        // 指定装配的类</span><br><span class="line">                        autoWritedField = this.getBean(autowired.value());</span><br><span class="line">                        if (null == autoWritedField) &#123;</span><br><span class="line">                            autoWritedField = recursiveAssembly(autowired.value());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if (null == autoWritedField) &#123;</span><br><span class="line">                    throw new RuntimeException(&quot;Unable to autoWrited &quot; + field.getType().getCanonicalName());</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                boolean accessible = field.isAccessible();</span><br><span class="line">                field.setAccessible(true);</span><br><span class="line">                field.set(object, autoWritedField);</span><br><span class="line">                field.setAccessible(accessible);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (SecurityException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (IllegalArgumentException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125; catch (IllegalAccessException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 修复没有指定注解及默认注入的情况</span><br><span class="line"> */</span><br><span class="line">private Object recursiveAssembly(Class&lt;?&gt; cls) &#123;</span><br><span class="line">    if (null != cls) &#123;</span><br><span class="line">        return this.registerBean(cls);</span><br><span class="line">    &#125;</span><br><span class="line">    return null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>写个测试测试3中注入类型<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class TestIoc &#123;</span><br><span class="line"></span><br><span class="line">    class A&#123;</span><br><span class="line"></span><br><span class="line">        @Autowired(name = &quot;myvalue&quot;)</span><br><span class="line">        private Integer value;</span><br><span class="line"></span><br><span class="line">        @Autowired(name = &quot;str&quot;)</span><br><span class="line">        private String myStr;</span><br><span class="line"></span><br><span class="line">        @Autowired(value = String.class)</span><br><span class="line">        private String myStr2;</span><br><span class="line"></span><br><span class="line">        @Autowired</span><br><span class="line">        public String myStr3;</span><br><span class="line"></span><br><span class="line">        public void show()&#123;</span><br><span class="line">            System.out.println(&quot;value: &quot; + value);</span><br><span class="line">            System.out.println(&quot;str: &quot; + myStr);</span><br><span class="line">            System.out.println(myStr2 == null);</span><br><span class="line">            System.out.println(myStr3 == null);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        Container c = new Container();</span><br><span class="line">        c.registerBean(&quot;a&quot;,new A());</span><br><span class="line">        c.registerBean(&quot;str&quot;,&quot;注入成功&quot;);</span><br><span class="line">        c.registerBean(&quot;myvalue&quot;,2333);</span><br><span class="line">        c.initWired();</span><br><span class="line">        A a = c.getBeanByName(&quot;a&quot;);</span><br><span class="line">        a.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p></p><p>测试成功<br></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">value: 2333</span><br><span class="line">str: 注入成功</span><br><span class="line">false</span><br><span class="line">false</span><br></pre></td></tr></table></figure><p></p><!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]--><audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false"><source type="audio/mpeg" src=""></audio><ul id="audio-list" style="display:none"><li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li></ul></div><div id="gitalk-container" class="comment link" data-ae="true" data-ci="b13f1c99b04e2cb032ba" data-cs="8b5cec5e81b3ab9ff1b533046e66f15650d0e98c" data-r="yidreamc.github.io" data-o="yidreamc" data-a="yidreamc" data-d="false">查看评论</div></div><div class="side"></div></div></div></div></body><script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script><script src="/js/plugin.js"></script><script src="/js/diaspora.js"></script><link rel="stylesheet" href="/photoswipe/photoswipe.css"><link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css"><script src="/photoswipe/photoswipe.min.js"></script><script src="/photoswipe/photoswipe-ui-default.min.js"></script><div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"><div class="pswp__bg"></div><div class="pswp__scroll-wrap"><div class="pswp__container"><div class="pswp__item"></div><div class="pswp__item"></div><div class="pswp__item"></div></div><div class="pswp__ui pswp__ui--hidden"><div class="pswp__top-bar"><div class="pswp__counter"></div> <button class="pswp__button pswp__button--close" title="Close (Esc)"></button> <button class="pswp__button pswp__button--share" title="Share"></button> <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class="pswp__preloader"><div class="pswp__preloader__icn"><div class="pswp__preloader__cut"><div class="pswp__preloader__donut"></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class="pswp__share-tooltip"></div></div> <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button> <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class="pswp__caption"><div class="pswp__caption__center"></div></div></div></div></div></html>
+<!DOCTYPE html><html lang="" class="loading"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no"><title>追梦</title><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="google" content="notranslate"><meta name="keywords" content="yidreamc,"><meta name="author" content="yidreamc"><link rel="alternative" href="atom.xml" title="追梦" type="application/atom+xml"><link rel="icon" href="/img/favicon.png"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"><link rel="stylesheet" href="/css/diaspora.css"><link href="/plugins/hljs/atom-one-dark.css" rel="stylesheet"><link rel="stylesheet" href="/styles/css/main.css"></head><body class="loading"><div id="loader"></div><div id="single"><div id="top" style="display:block"><div class="bar" style="width:0"></div><a class="icon-home image-icon" href="javascript:;"></a><h3 class="subtitle">自己实现一个简单的ioc容器</h3><div class="social"></div><div class="scrollbar"></div></div><div class="section"><div class="article"><div class="main"><h1 id="title" class="title">自己实现一个简单的ioc容器</h1><div class="stuff"> <span>十一月 26, 2017</span><ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/java/">java</a></li></ul></div><div class="content markdown"><p>某节实验课的任务是练习使用spring的ioc，因为之前用过，感觉也没啥意思，就想了以下他的实现原理，然后自己使用java反射机制实现了一个简单的ioc容器。以下对原理进行简单的说明，完整的代码及用法详见<a href="https://github.com/xmfaly/simpleioc" target="_blank" rel="noopener">xmfaly/simpleioc</a></p><p>首先定义@Autowired注解用于自动注入</p><pre><code>@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Autowired {
+
+    Class&lt;?&gt; value() default Class.class;
+
+    String name() default &quot;&quot;;
+}
+</code></pre><p>建立一个<code>Container</code>容器类<br>建立两个<code>map</code>分别保存类名和bean、对象名和类名的关系</p><pre><code>    // 保存所有bean 格式为 类名 : bean
+    private Map&lt;String, Object&gt; beans;
+
+    // 存储对象和类名的关系 对象名 ：bean
+    private Map&lt;String, Object&gt; beanKeys;
+</code></pre><p>这里为了安全起见，使用<code>ConcurrentHashMap()</code>实例化这两个<code>map</code></p><pre><code>    public Container(){
+        beans = new ConcurrentHashMap&lt;String, Object&gt;();
+        beanKeys = new ConcurrentHashMap&lt;String, String&gt;();
+    }
+</code></pre><p>向容器内注册bean，这里我重载了三种形式，当然也可以更多，关键看使用的场景了。</p><pre><code>  /**
+     * 以class的形式注册
+     */
+    public Object registerBean(Class&lt;?&gt; cls) {
+        String className = cls.getName();
+        Object bean = null;
+
+        try {
+            bean = cls.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        beans.put(className, bean);
+
+        //不指定对象名的情况下类名和对象名相同
+        beanKeys.put(className, bean);
+        return bean;
+    }
+
+    /**
+     * 以bean的形式注册
+     */
+    public Object registerBean(Object bean) {
+        String className = bean.getClass().getName();
+        beans.put(className, bean);
+        beanKeys.put(className, bean);
+        return bean;
+    }
+
+
+    /**
+     * 以带对象名的class形式注册
+     */
+    public Object registerBean(String name, Class&lt;?&gt; cls) {
+        String className = cls.getName();
+        Object bean = null;
+
+        try {
+            bean = cls.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        beans.put(className, bean);
+        beanKeys.put(name, bean);
+        return bean;
+    }
+
+    /**
+     * 注册一个带名称的Bean到容器中
+     */
+    public Object registerBean(String name, Object bean) {
+        String className = bean.getClass().getName();
+        beans.put(className, bean);
+        beanKeys.put(name, bean);
+        return bean;
+    }
+
+</code></pre><p>从容器中取出bean</p><pre><code>   /**
+     * 通过 Class 对象获取bean
+     */
+    public &lt;T&gt; T getBean(Class&lt;?&gt; cls) {
+        String className = cls.getName();
+        Object object = beans.get(className);
+        if (null != object) {
+            return (T) object;
+        }
+        return null;
+    }
+
+    /**
+     * 通过对象名获取 bean
+     */
+    public &lt;T&gt; T getBeanByName(String name) {
+        Object object = beanKeys.get(name);;
+        if (null != object) {
+            return (T) object;
+        }
+        return null;
+    }
+
+</code></pre><p>在容器启动的时候遍历容器内的所有bean对bean进行注入</p><pre><code>  /**
+     * 初始化
+     */
+    public void init() {
+        Iterator&lt;Map.Entry&lt;String, Object&gt;&gt; it = beans.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry&lt;String, Object&gt; entry = it.next();
+            Object object = entry.getValue();
+            injection(object);
+        }
+    }
+</code></pre><p>其中使用到的方法的实现</p><pre><code>     /**
+     * 注入
+     */
+    public void injection(Object object) {
+        Field[] fields = object.getClass().getDeclaredFields();
+        try {
+
+            //遍历所有属性寻找@Autowired注解
+            for (Field field : fields) {
+                Autowired autowired = field.getAnnotation(Autowired.class);
+                if (null != autowired) {
+
+                    // 要注入的字段
+                    Object autoWritedField = null;
+                    String name = autowired.name();
+
+                    if (!name.equals(&quot;&quot;)) {
+                        Object bean = beanKeys.get(name);
+                        if (null != bean ) {
+                            autoWritedField = bean;
+                        }
+
+
+                        if (null == autoWritedField) {
+                            throw new RuntimeException(&quot;Unable to autoWrited &quot; + name);
+                        }
+                    } else {
+                        if (autowired.value() == Class.class) {
+                            //该属性的Type
+                            autoWritedField = recursiveAssembly(field.getType());
+                        } else {
+                            // 指定装配的类
+                            autoWritedField = this.getBean(autowired.value());
+                            if (null == autoWritedField) {
+                                autoWritedField = recursiveAssembly(autowired.value());
+                            }
+                        }
+                    }
+
+                    if (null == autoWritedField) {
+                        throw new RuntimeException(&quot;Unable to autoWrited &quot; + field.getType().getCanonicalName());
+                    }
+
+                    boolean accessible = field.isAccessible();
+                    field.setAccessible(true);
+                    field.set(object, autoWritedField);
+                    field.setAccessible(accessible);
+                }
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 修复没有指定注解及默认注入的情况
+     */
+    private Object recursiveAssembly(Class&lt;?&gt; cls) {
+        if (null != cls) {
+            return this.registerBean(cls);
+        }
+        return null;
+    }
+
+</code></pre><p>写个测试测试3中注入类型</p><pre><code>public class TestIoc {
+
+    class A{
+
+        @Autowired(name = &quot;myvalue&quot;)
+        private Integer value;
+
+        @Autowired(name = &quot;str&quot;)
+        private String myStr;
+
+        @Autowired(value = String.class)
+        private String myStr2;
+
+        @Autowired
+        public String myStr3;
+
+        public void show(){
+            System.out.println(&quot;value: &quot; + value);
+            System.out.println(&quot;str: &quot; + myStr);
+            System.out.println(myStr2 == null);
+            System.out.println(myStr3 == null);
+        }
+    }
+
+    @Test
+    public void test(){
+        Container c = new Container();
+        c.registerBean(&quot;a&quot;,new A());
+        c.registerBean(&quot;str&quot;,&quot;注入成功&quot;);
+        c.registerBean(&quot;myvalue&quot;,2333);
+        c.initWired();
+        A a = c.getBeanByName(&quot;a&quot;);
+        a.show();
+    }
+}
+</code></pre><p>测试成功</p><pre><code>value: 2333
+str: 注入成功
+false
+false
+</code></pre><!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]--><audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false"><source type="audio/mpeg" src=""></audio><ul id="audio-list" style="display:none"><li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li></ul></div><div id="gitalk-container" class="comment link" data-ae="true" data-ci="b13f1c99b04e2cb032ba" data-cs="8b5cec5e81b3ab9ff1b533046e66f15650d0e98c" data-r="yidreamc.github.io" data-o="yidreamc" data-a="yidreamc" data-d="false">查看评论</div></div><div class="side"></div></div></div></div></body><script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script><script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script><script src="/js/plugin.js"></script><script src="/js/diaspora.js"></script><link rel="stylesheet" href="/photoswipe/photoswipe.css"><link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css"><script src="/photoswipe/photoswipe.min.js"></script><script src="/photoswipe/photoswipe-ui-default.min.js"></script><div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"><div class="pswp__bg"></div><div class="pswp__scroll-wrap"><div class="pswp__container"><div class="pswp__item"></div><div class="pswp__item"></div><div class="pswp__item"></div></div><div class="pswp__ui pswp__ui--hidden"><div class="pswp__top-bar"><div class="pswp__counter"></div> <button class="pswp__button pswp__button--close" title="Close (Esc)"></button> <button class="pswp__button pswp__button--share" title="Share"></button> <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button> <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class="pswp__preloader"><div class="pswp__preloader__icn"><div class="pswp__preloader__cut"><div class="pswp__preloader__donut"></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class="pswp__share-tooltip"></div></div> <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button> <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class="pswp__caption"><div class="pswp__caption__center"></div></div></div></div></div><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script><script>hljs.initHighlightingOnLoad()</script></html>
