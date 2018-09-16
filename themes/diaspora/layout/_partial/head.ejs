@@ -36,4 +36,8 @@ var description = '';
     <% if (theme.favicon){ %><link rel="icon" href="<%- url_for(theme.favicon) %>"> <% } %>
     <%- css(['//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css'])%>
     <%- css(['css/diaspora.css'])%>
+    <% if (config.myhighlight.enable){ %>
+        <link href="/plugins/hljs/<%= config.myhighlight.theme %>.css" rel="stylesheet">
+    <% } %>
+    <%- css(['/styles/css/main.css'])%>
 </head>
