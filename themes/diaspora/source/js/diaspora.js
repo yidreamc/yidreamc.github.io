@@ -368,15 +368,15 @@ $(function () {
                 }
                 break;
             // audio play
-            case (tag.indexOf('icon-play') != -1):
-                $('#audio')[0].play()
-                $('.icon-play').removeClass('icon-play').addClass('icon-pause')
-                break;
+            // case (tag.indexOf('icon-play') != -1):
+            //     $('#audio')[0].play()
+            //     $('.icon-play').removeClass('icon-play').addClass('icon-pause')
+                // break;
             // audio pause
-            case (tag.indexOf('icon-pause') != -1):
-                $('#audio')[0].pause()
-                $('.icon-pause').removeClass('icon-pause').addClass('icon-play')
-                break;
+            // case (tag.indexOf('icon-pause') != -1):
+            //     $('#audio')[0].pause()
+            //     $('.icon-pause').removeClass('icon-pause').addClass('icon-play')
+                // break;
             // history state
             case (tag.indexOf('cover') != -1):
                 Diaspora.HS($(e.target).parent(), 'push')
@@ -478,6 +478,10 @@ $(function () {
                 })
                 $(".comment").removeClass("link")
                 gitalk.render('gitalk-container')
+                // 加载高亮
+                $('pre code').each(function (i, block) {
+                    hljs.highlightBlock(block);
+                });
                 Diaspora.loaded();
                 return false;
                 break;
