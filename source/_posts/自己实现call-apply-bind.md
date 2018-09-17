@@ -8,7 +8,8 @@ tags:
 js的`call`和`apply`都可以改变this指向,调用函数，两者的作用相同，只是传参的方式不同。`bind`可以改变this指向，创建函数。也就是说`call`和`apply`改变指向之后会执行`bind`不会。
 - `call(obj, arg1, arg2, ...)`
 - `apply(obj,[arg1, arg2, ...])`
-- `bind(obj, arg1, arg2, ...)`
+- `bind(obj, arg1, arg2, ...)`  
+
 ### 实现原理
 改变`this`的指向，就是在新的对象加要执行的函数，调用结束之后删除。
 
@@ -25,7 +26,6 @@ Function.prototype.myCall = function (context) {
     delete context.fn;
     return result;
 }
-
 ```
 ### `apply`实现
 ```js
