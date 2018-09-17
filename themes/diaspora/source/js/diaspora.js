@@ -60,7 +60,7 @@ var Diaspora = {
                     document.title = state.t;
                     $('#preview').html($(data).filter('#single'));
                     Diaspora.preview();
-                    setTimeout(function () { Diaspora.player(); }, 0);
+                    // setTimeout(function () { Diaspora.player(); }, 0);
                 });
             }
         });
@@ -97,7 +97,7 @@ var Diaspora = {
                     break;
             }
             setTimeout(function () {
-                Diaspora.player();
+                // Diaspora.player();
                 $('#top').show();
                 comment = $("#gitalk-container");
                 if (comment.data('ae') == true) {
@@ -128,44 +128,44 @@ var Diaspora = {
             }, 500);
         }, 0);
     },
-    player: function () {
-        var p = $('#audio');
-        if (!p.length) {
-            $('.icon-play').css({
-                'color': '#dedede',
-                'cursor': 'not-allowed'
-            })
-            return
-        }
-        var sourceSrc = $("#audio source").eq(0).attr('src')
-        if (sourceSrc == '' && p[0].src == '') {
-            audiolist = $('#audio-list li');
-            mp3 = audiolist.eq([Math.floor(Math.random() * audiolist.size())])
-            p[0].src = mp3.data('url')
-        }
+    // player: function () {
+    //     var p = $('#audio');
+    //     if (!p.length) {
+    //         $('.icon-play').css({
+    //             'color': '#dedede',
+    //             'cursor': 'not-allowed'
+    //         })
+    //         return
+    //     }
+    //     var sourceSrc = $("#audio source").eq(0).attr('src')
+    //     if (sourceSrc == '' && p[0].src == '') {
+    //         audiolist = $('#audio-list li');
+    //         mp3 = audiolist.eq([Math.floor(Math.random() * audiolist.size())])
+    //         p[0].src = mp3.data('url')
+    //     }
 
-        if (p.eq(0).data("autoplay") == true) {
-            p[0].play();
-        }
+    //     if (p.eq(0).data("autoplay") == true) {
+    //         p[0].play();
+    //     }
 
-        p.on({
-            'timeupdate': function () {
-                var progress = p[0].currentTime / p[0].duration * 100;
-                $('.bar').css('width', progress + '%');
-                if (progress / 5 <= 1) {
-                    p[0].volume = progress / 5;
-                } else {
-                    p[0].volume = 1;
-                }
-            },
-            'ended': function () {
-                $('.icon-pause').removeClass('icon-pause').addClass('icon-play')
-            },
-            'playing': function () {
-                $('.icon-play').removeClass('icon-play').addClass('icon-pause')
-            }
-        })
-    },
+    //     p.on({
+    //         'timeupdate': function () {
+    //             var progress = p[0].currentTime / p[0].duration * 100;
+    //             $('.bar').css('width', progress + '%');
+    //             if (progress / 5 <= 1) {
+    //                 p[0].volume = progress / 5;
+    //             } else {
+    //                 p[0].volume = 1;
+    //             }
+    //         },
+    //         'ended': function () {
+    //             $('.icon-pause').removeClass('icon-pause').addClass('icon-play')
+    //         },
+    //         'playing': function () {
+    //             $('.icon-play').removeClass('icon-play').addClass('icon-pause')
+    //         }
+    //     })
+    // },
     loading: function () {
         var w = window.innerWidth;
         var css = '<style class="loaderstyle" id="loaderstyle' + w + '">' +
@@ -278,7 +278,7 @@ $(function () {
         window.addEventListener('popstate', function (e) {
             if (e.state) location.href = e.state.u;
         })
-        Diaspora.player();
+        // Diaspora.player();
         $('.icon-icon, .image-icon').attr('href', '/')
         $('#top').show()
     }
