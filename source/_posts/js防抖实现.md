@@ -27,7 +27,6 @@ const debounce = (func, wait, immediate = true) => {
         context = this;
         timestamp = Date.parse(new Date());
         const callNow = immediate && !timeout;
-
         // 如果定时器不存在就创建一个
         if (!timeout) {
             timeout = setTimeout(later, wait);
