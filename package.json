@@ -7,7 +7,11 @@
   },
   "scripts": {
     "build": "gulp",
-    "rename": "node scripts/rename.js"
+    "rename": "node scripts/rename.js",
+    "new": "hexo new post",
+    "g": "hexo g",
+    "s": "hexo s",
+    "c": "hexo clean"
   },
   "dependencies": {
     "hexo": "^3.2.0",
@@ -30,6 +34,7 @@
     "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^4.1.0",
     "gulp-uglify": "^3.0.1",
+    "hexo-cli": "^1.1.0",
     "run-sequence": "^2.2.1"
   }
 }
