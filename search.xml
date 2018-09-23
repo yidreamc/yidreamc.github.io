@@ -3,6 +3,15 @@
   
     
     <entry>
+      <title>js防抖实现</title>
+      <link href="/2018/09/21/js%E9%98%B2%E6%8A%96%E5%AE%9E%E7%8E%B0/"/>
+      <url>/2018/09/21/js%E9%98%B2%E6%8A%96%E5%AE%9E%E7%8E%B0/</url>
+      <content type="html"><![CDATA[<p>思路还是比较简单的，在进行一次操作之后，只有过了一定的时间才能进行下次操作，然后换一下this的作用域就实现了。</p><pre><code>const debounce = (func, wait, immediate = true) =&gt; {    let timeout, args, context, timestamp, result;    const later = function () {        const last = Date.parse(new Date()) - timestamp;        console.log(&#39;last&#39;,last);        if (last &lt; wait &amp;&amp; last &gt; 0) {            timeout = setTimeout(later, wait - last);        } else {            timeout = null;            if (!immediate) {                result = func.apply(context, arguments);                if (!timeout) {                    context = null;                }            }        }    }    return function () {        context = this;        timestamp = Date.parse(new Date());        const callNow = immediate &amp;&amp; !timeout;        // 如果定时器不存在就创建一个        if (!timeout) {            timeout = setTimeout(later, wait);        }        if (callNow) {            result = func.apply(context, arguments);            context = null;        }        return result;    }}</code></pre>]]></content>
+      
+      
+    </entry>
+    
+    <entry>
       <title>前端安全</title>
       <link href="/2018/09/20/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/"/>
       <url>/2018/09/20/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/</url>
@@ -523,6 +532,13 @@
     
     <entry>
       <title></title>
+      <link href="/plugins/hljs/atelier-cave-light.css"/>
+      <url>/plugins/hljs/atelier-cave-light.css</url>
+      <content type="html"><![CDATA[/* Base16 Atelier Cave Light - Theme *//* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/cave) *//* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) *//* Atelier-Cave Comment */.hljs-comment,.hljs-quote {  color: #655f6d;}/* Atelier-Cave Red */.hljs-variable,.hljs-template-variable,.hljs-attribute,.hljs-tag,.hljs-name,.hljs-regexp,.hljs-link,.hljs-name,.hljs-name,.hljs-selector-id,.hljs-selector-class {  color: #be4678;}/* Atelier-Cave Orange */.hljs-number,.hljs-meta,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-type,.hljs-params {  color: #aa573c;}/* Atelier-Cave Green */.hljs-string,.hljs-symbol,.hljs-bullet {  color: #2a9292;}/* Atelier-Cave Blue */.hljs-title,.hljs-section {  color: #576ddb;}/* Atelier-Cave Purple */.hljs-keyword,.hljs-selector-tag {  color: #955ae7;}.hljs-deletion,.hljs-addition {  color: #19171c;  display: inline-block;  width: 100%;}.hljs-deletion {  background-color: #be4678;}.hljs-addition {  background-color: #2a9292;}.hljs {  display: block;  overflow-x: auto;  background: #efecf4;  color: #585260;  padding: 0.5em;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}]]></content>
+    </entry>
+    
+    <entry>
+      <title></title>
       <link href="/plugins/hljs/atelier-dune-dark.css"/>
       <url>/plugins/hljs/atelier-dune-dark.css</url>
       <content type="html"><![CDATA[/* Base16 Atelier Dune Dark - Theme *//* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/dune) *//* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) *//* Atelier-Dune Comment */.hljs-comment,.hljs-quote {  color: #999580;}/* Atelier-Dune Red */.hljs-variable,.hljs-template-variable,.hljs-attribute,.hljs-tag,.hljs-name,.hljs-regexp,.hljs-link,.hljs-name,.hljs-selector-id,.hljs-selector-class {  color: #d73737;}/* Atelier-Dune Orange */.hljs-number,.hljs-meta,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-type,.hljs-params {  color: #b65611;}/* Atelier-Dune Green */.hljs-string,.hljs-symbol,.hljs-bullet {  color: #60ac39;}/* Atelier-Dune Blue */.hljs-title,.hljs-section {  color: #6684e1;}/* Atelier-Dune Purple */.hljs-keyword,.hljs-selector-tag {  color: #b854d4;}.hljs {  display: block;  overflow-x: auto;  background: #20201d;  color: #a6a28c;  padding: 0.5em;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}]]></content>
@@ -617,13 +633,6 @@
       <link href="/plugins/hljs/atelier-savanna-light.css"/>
       <url>/plugins/hljs/atelier-savanna-light.css</url>
       <content type="html"><![CDATA[/* Base16 Atelier Savanna Light - Theme *//* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/savanna) *//* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) *//* Atelier-Savanna Comment */.hljs-comment,.hljs-quote {  color: #5f6d64;}/* Atelier-Savanna Red */.hljs-variable,.hljs-template-variable,.hljs-attribute,.hljs-tag,.hljs-name,.hljs-regexp,.hljs-link,.hljs-name,.hljs-selector-id,.hljs-selector-class {  color: #b16139;}/* Atelier-Savanna Orange */.hljs-number,.hljs-meta,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-type,.hljs-params {  color: #9f713c;}/* Atelier-Savanna Green */.hljs-string,.hljs-symbol,.hljs-bullet {  color: #489963;}/* Atelier-Savanna Blue */.hljs-title,.hljs-section {  color: #478c90;}/* Atelier-Savanna Purple */.hljs-keyword,.hljs-selector-tag {  color: #55859b;}.hljs-deletion,.hljs-addition {  color: #171c19;  display: inline-block;  width: 100%;}.hljs-deletion {  background-color: #b16139;}.hljs-addition {  background-color: #489963;}.hljs {  display: block;  overflow-x: auto;  background: #ecf4ee;  color: #526057;  padding: 0.5em;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}]]></content>
-    </entry>
-    
-    <entry>
-      <title></title>
-      <link href="/plugins/hljs/atelier-seaside-dark.css"/>
-      <url>/plugins/hljs/atelier-seaside-dark.css</url>
-      <content type="html"><![CDATA[/* Base16 Atelier Seaside Dark - Theme *//* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/seaside) *//* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) *//* Atelier-Seaside Comment */.hljs-comment,.hljs-quote {  color: #809980;}/* Atelier-Seaside Red */.hljs-variable,.hljs-template-variable,.hljs-attribute,.hljs-tag,.hljs-name,.hljs-regexp,.hljs-link,.hljs-name,.hljs-selector-id,.hljs-selector-class {  color: #e6193c;}/* Atelier-Seaside Orange */.hljs-number,.hljs-meta,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-type,.hljs-params {  color: #87711d;}/* Atelier-Seaside Green */.hljs-string,.hljs-symbol,.hljs-bullet {  color: #29a329;}/* Atelier-Seaside Blue */.hljs-title,.hljs-section {  color: #3d62f5;}/* Atelier-Seaside Purple */.hljs-keyword,.hljs-selector-tag {  color: #ad2bee;}.hljs {  display: block;  overflow-x: auto;  background: #131513;  color: #8ca68c;  padding: 0.5em;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}]]></content>
     </entry>
     
     <entry>
@@ -726,9 +735,9 @@
     
     <entry>
       <title></title>
-      <link href="/plugins/hljs/atelier-cave-light.css"/>
-      <url>/plugins/hljs/atelier-cave-light.css</url>
-      <content type="html"><![CDATA[/* Base16 Atelier Cave Light - Theme *//* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/cave) *//* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) *//* Atelier-Cave Comment */.hljs-comment,.hljs-quote {  color: #655f6d;}/* Atelier-Cave Red */.hljs-variable,.hljs-template-variable,.hljs-attribute,.hljs-tag,.hljs-name,.hljs-regexp,.hljs-link,.hljs-name,.hljs-name,.hljs-selector-id,.hljs-selector-class {  color: #be4678;}/* Atelier-Cave Orange */.hljs-number,.hljs-meta,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-type,.hljs-params {  color: #aa573c;}/* Atelier-Cave Green */.hljs-string,.hljs-symbol,.hljs-bullet {  color: #2a9292;}/* Atelier-Cave Blue */.hljs-title,.hljs-section {  color: #576ddb;}/* Atelier-Cave Purple */.hljs-keyword,.hljs-selector-tag {  color: #955ae7;}.hljs-deletion,.hljs-addition {  color: #19171c;  display: inline-block;  width: 100%;}.hljs-deletion {  background-color: #be4678;}.hljs-addition {  background-color: #2a9292;}.hljs {  display: block;  overflow-x: auto;  background: #efecf4;  color: #585260;  padding: 0.5em;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}]]></content>
+      <link href="/plugins/hljs/github.css"/>
+      <url>/plugins/hljs/github.css</url>
+      <content type="html"><![CDATA[/*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  color: #333;  background: #f8f8f8;}.hljs-comment,.hljs-quote {  color: #998;  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-subst {  color: #333;  font-weight: bold;}.hljs-number,.hljs-literal,.hljs-variable,.hljs-template-variable,.hljs-tag .hljs-attr {  color: #008080;}.hljs-string,.hljs-doctag {  color: #d14;}.hljs-title,.hljs-section,.hljs-selector-id {  color: #900;  font-weight: bold;}.hljs-subst {  font-weight: normal;}.hljs-type,.hljs-class .hljs-title {  color: #458;  font-weight: bold;}.hljs-tag,.hljs-name,.hljs-attribute {  color: #000080;  font-weight: normal;}.hljs-regexp,.hljs-link {  color: #009926;}.hljs-symbol,.hljs-bullet {  color: #990073;}.hljs-built_in,.hljs-builtin-name {  color: #0086b3;}.hljs-meta {  color: #999;  font-weight: bold;}.hljs-deletion {  background: #fdd;}.hljs-addition {  background: #dfd;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}</vast@whiteants.net>]]></content>
     </entry>
     
     <entry>
@@ -740,9 +749,9 @@
     
     <entry>
       <title></title>
-      <link href="/plugins/hljs/grayscale.css"/>
-      <url>/plugins/hljs/grayscale.css</url>
-      <content type="html"><![CDATA[/*grayscale style (c) MY Sun <simonmysun@gmail.com>*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  color: #333;  background: #fff;}.hljs-comment,.hljs-quote {  color: #777;  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-subst {  color: #333;  font-weight: bold;}.hljs-number,.hljs-literal {  color: #777;}.hljs-string,.hljs-doctag,.hljs-formula {  color: #333;  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAJ0lEQVQIW2O8e/fufwYGBgZBQUEQxcCIIfDu3Tuwivfv30NUoAsAALHpFMMLqZlPAAAAAElFTkSuQmCC) repeat;}.hljs-title,.hljs-section,.hljs-selector-id {  color: #000;  font-weight: bold;}.hljs-subst {  font-weight: normal;}.hljs-class .hljs-title,.hljs-type,.hljs-name {  color: #333;  font-weight: bold;}.hljs-tag {  color: #333;}.hljs-regexp {    color: #333;    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAAPUlEQVQYV2NkQAN37979r6yszIgujiIAU4RNMVwhuiQ6H6wQl3XI4oy4FMHcCJPHcDS6J2A2EqUQpJhohQDexSef15DBCwAAAABJRU5ErkJggg==) repeat;}.hljs-symbol,.hljs-bullet,.hljs-link {  color: #000;  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAKElEQVQIW2NkQAO7d+/+z4gsBhJwdXVlhAvCBECKwIIwAbhKZBUwBQA6hBpm5efZsgAAAABJRU5ErkJggg==) repeat;}.hljs-built_in,.hljs-builtin-name {  color: #000;  text-decoration: underline;}.hljs-meta {  color: #999;  font-weight: bold;}.hljs-deletion {  color: #fff;  background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAAE0lEQVQIW2MMDQ39zzhz5kwIAQAyxweWgUHd1AAAAABJRU5ErkJggg==) repeat;}.hljs-addition {  color: #000;  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAALUlEQVQYV2N89+7dfwYk8P79ewZBQUFkIQZGOiu6e/cuiptQHAPl0NtNxAQBAM97Oejj3Dg7AAAAAElFTkSuQmCC) repeat;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}</simonmysun@gmail.com>]]></content>
+      <link href="/plugins/hljs/atelier-seaside-dark.css"/>
+      <url>/plugins/hljs/atelier-seaside-dark.css</url>
+      <content type="html"><![CDATA[/* Base16 Atelier Seaside Dark - Theme *//* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/seaside) *//* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) *//* Atelier-Seaside Comment */.hljs-comment,.hljs-quote {  color: #809980;}/* Atelier-Seaside Red */.hljs-variable,.hljs-template-variable,.hljs-attribute,.hljs-tag,.hljs-name,.hljs-regexp,.hljs-link,.hljs-name,.hljs-selector-id,.hljs-selector-class {  color: #e6193c;}/* Atelier-Seaside Orange */.hljs-number,.hljs-meta,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-type,.hljs-params {  color: #87711d;}/* Atelier-Seaside Green */.hljs-string,.hljs-symbol,.hljs-bullet {  color: #29a329;}/* Atelier-Seaside Blue */.hljs-title,.hljs-section {  color: #3d62f5;}/* Atelier-Seaside Purple */.hljs-keyword,.hljs-selector-tag {  color: #ad2bee;}.hljs {  display: block;  overflow-x: auto;  background: #131513;  color: #8ca68c;  padding: 0.5em;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}]]></content>
     </entry>
     
     <entry>
@@ -859,9 +868,9 @@
     
     <entry>
       <title></title>
-      <link href="/plugins/hljs/github.css"/>
-      <url>/plugins/hljs/github.css</url>
-      <content type="html"><![CDATA[/*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  color: #333;  background: #f8f8f8;}.hljs-comment,.hljs-quote {  color: #998;  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-subst {  color: #333;  font-weight: bold;}.hljs-number,.hljs-literal,.hljs-variable,.hljs-template-variable,.hljs-tag .hljs-attr {  color: #008080;}.hljs-string,.hljs-doctag {  color: #d14;}.hljs-title,.hljs-section,.hljs-selector-id {  color: #900;  font-weight: bold;}.hljs-subst {  font-weight: normal;}.hljs-type,.hljs-class .hljs-title {  color: #458;  font-weight: bold;}.hljs-tag,.hljs-name,.hljs-attribute {  color: #000080;  font-weight: normal;}.hljs-regexp,.hljs-link {  color: #009926;}.hljs-symbol,.hljs-bullet {  color: #990073;}.hljs-built_in,.hljs-builtin-name {  color: #0086b3;}.hljs-meta {  color: #999;  font-weight: bold;}.hljs-deletion {  background: #fdd;}.hljs-addition {  background: #dfd;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}</vast@whiteants.net>]]></content>
+      <link href="/plugins/hljs/pojoaque.css"/>
+      <url>/plugins/hljs/pojoaque.css</url>
+      <content type="html"><![CDATA[/*Pojoaque Style by Jason Tatehttp://web-cms-designs.com/ftopict-10-pojoaque-style-for-highlight-js-code-highlighter.htmlBased on Solarized Style from http://ethanschoonover.com/solarized*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  color: #dccf8f;  background: url(./pojoaque.jpg) repeat scroll left top #181914;}.hljs-comment,.hljs-quote {  color: #586e75;  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-addition {  color: #b64926;}.hljs-number,.hljs-string,.hljs-doctag,.hljs-regexp {  color: #468966;}.hljs-title,.hljs-section,.hljs-built_in,.hljs-name {  color: #ffb03b;}.hljs-variable,.hljs-template-variable,.hljs-class .hljs-title,.hljs-type,.hljs-tag {  color: #b58900;}.hljs-attribute {  color: #b89859;}.hljs-symbol,.hljs-bullet,.hljs-link,.hljs-subst,.hljs-meta {  color: #cb4b16;}.hljs-deletion {  color: #dc322f;}.hljs-selector-id,.hljs-selector-class {  color: #d3a60c;}.hljs-formula {  background: #073642;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}]]></content>
     </entry>
     
     <entry>
@@ -876,6 +885,13 @@
       <link href="/plugins/hljs/qtcreator_dark.css"/>
       <url>/plugins/hljs/qtcreator_dark.css</url>
       <content type="html"><![CDATA[/*Qt Creator dark color scheme*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #000000;}.hljs,.hljs-subst,.hljs-tag,.hljs-title {  color: #aaaaaa;}.hljs-strong,.hljs-emphasis {  color: #a8a8a2;}.hljs-bullet,.hljs-quote,.hljs-number,.hljs-regexp,.hljs-literal {  color: #ff55ff;}.hljs-code.hljs-selector-class {  color: #aaaaff;}.hljs-emphasis,.hljs-stronge,.hljs-type {  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-function,.hljs-section,.hljs-symbol,.hljs-name {  color: #ffff55;}.hljs-attribute {  color: #ff5555;}.hljs-variable,.hljs-params,.hljs-class .hljs-title {  color: #8888ff;}.hljs-string,.hljs-selector-id,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-type,.hljs-built_in,.hljs-builtin-name,.hljs-template-tag,.hljs-template-variable,.hljs-addition,.hljs-link {  color: #ff55ff;}.hljs-comment,.hljs-meta,.hljs-deletion {  color: #55ffff;}]]></content>
+    </entry>
+    
+    <entry>
+      <title></title>
+      <link href="/plugins/hljs/grayscale.css"/>
+      <url>/plugins/hljs/grayscale.css</url>
+      <content type="html"><![CDATA[/*grayscale style (c) MY Sun <simonmysun@gmail.com>*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  color: #333;  background: #fff;}.hljs-comment,.hljs-quote {  color: #777;  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-subst {  color: #333;  font-weight: bold;}.hljs-number,.hljs-literal {  color: #777;}.hljs-string,.hljs-doctag,.hljs-formula {  color: #333;  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAJ0lEQVQIW2O8e/fufwYGBgZBQUEQxcCIIfDu3Tuwivfv30NUoAsAALHpFMMLqZlPAAAAAElFTkSuQmCC) repeat;}.hljs-title,.hljs-section,.hljs-selector-id {  color: #000;  font-weight: bold;}.hljs-subst {  font-weight: normal;}.hljs-class .hljs-title,.hljs-type,.hljs-name {  color: #333;  font-weight: bold;}.hljs-tag {  color: #333;}.hljs-regexp {    color: #333;    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAICAYAAADA+m62AAAAPUlEQVQYV2NkQAN37979r6yszIgujiIAU4RNMVwhuiQ6H6wQl3XI4oy4FMHcCJPHcDS6J2A2EqUQpJhohQDexSef15DBCwAAAABJRU5ErkJggg==) repeat;}.hljs-symbol,.hljs-bullet,.hljs-link {  color: #000;  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAKElEQVQIW2NkQAO7d+/+z4gsBhJwdXVlhAvCBECKwIIwAbhKZBUwBQA6hBpm5efZsgAAAABJRU5ErkJggg==) repeat;}.hljs-built_in,.hljs-builtin-name {  color: #000;  text-decoration: underline;}.hljs-meta {  color: #999;  font-weight: bold;}.hljs-deletion {  color: #fff;  background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAAE0lEQVQIW2MMDQ39zzhz5kwIAQAyxweWgUHd1AAAAABJRU5ErkJggg==) repeat;}.hljs-addition {  color: #000;  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAALUlEQVQYV2N89+7dfwYk8P79ewZBQUFkIQZGOiu6e/cuiptQHAPl0NtNxAQBAM97Oejj3Dg7AAAAAElFTkSuQmCC) repeat;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}</simonmysun@gmail.com>]]></content>
     </entry>
     
     <entry>
@@ -985,13 +1001,6 @@
     
     <entry>
       <title></title>
-      <link href="/plugins/hljs/pojoaque.css"/>
-      <url>/plugins/hljs/pojoaque.css</url>
-      <content type="html"><![CDATA[/*Pojoaque Style by Jason Tatehttp://web-cms-designs.com/ftopict-10-pojoaque-style-for-highlight-js-code-highlighter.htmlBased on Solarized Style from http://ethanschoonover.com/solarized*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  color: #dccf8f;  background: url(./pojoaque.jpg) repeat scroll left top #181914;}.hljs-comment,.hljs-quote {  color: #586e75;  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-literal,.hljs-addition {  color: #b64926;}.hljs-number,.hljs-string,.hljs-doctag,.hljs-regexp {  color: #468966;}.hljs-title,.hljs-section,.hljs-built_in,.hljs-name {  color: #ffb03b;}.hljs-variable,.hljs-template-variable,.hljs-class .hljs-title,.hljs-type,.hljs-tag {  color: #b58900;}.hljs-attribute {  color: #b89859;}.hljs-symbol,.hljs-bullet,.hljs-link,.hljs-subst,.hljs-meta {  color: #cb4b16;}.hljs-deletion {  color: #dc322f;}.hljs-selector-id,.hljs-selector-class {  color: #d3a60c;}.hljs-formula {  background: #073642;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}]]></content>
-    </entry>
-    
-    <entry>
-      <title></title>
       <link href="/plugins/hljs/xcode.css"/>
       <url>/plugins/hljs/xcode.css</url>
       <content type="html"><![CDATA[/*XCode style (c) Angel Garcia <angelgarcia.mail@gmail.com>*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #fff;  color: black;}.hljs-comment,.hljs-quote {  color: #006a00;}.hljs-keyword,.hljs-selector-tag,.hljs-literal {  color: #aa0d91;}.hljs-name {  color: #008;}.hljs-variable,.hljs-template-variable {  color: #660;}.hljs-string {  color: #c41a16;}.hljs-regexp,.hljs-link {  color: #080;}.hljs-title,.hljs-tag,.hljs-symbol,.hljs-bullet,.hljs-number,.hljs-meta {  color: #1c00cf;}.hljs-section,.hljs-class .hljs-title,.hljs-type,.hljs-attr,.hljs-built_in,.hljs-builtin-name,.hljs-params {  color: #5c2699;}.hljs-attribute,.hljs-subst {  color: #000;}.hljs-formula {  background-color: #eee;  font-style: italic;}.hljs-addition {  background-color: #baeeba;}.hljs-deletion {  background-color: #ffc8bd;}.hljs-selector-id,.hljs-selector-class {  color: #9b703f;}.hljs-doctag,.hljs-strong {  font-weight: bold;}.hljs-emphasis {  font-style: italic;}</angelgarcia.mail@gmail.com>]]></content>
@@ -1020,13 +1029,6 @@
     
     <entry>
       <title></title>
-      <link href="/plugins/hljs/darcula.css"/>
-      <url>/plugins/hljs/darcula.css</url>
-      <content type="html"><![CDATA[/*Darcula color scheme from the JetBrains family of IDEs*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #2b2b2b;}.hljs {  color: #bababa;}.hljs-strong,.hljs-emphasis {  color: #a8a8a2;}.hljs-bullet,.hljs-quote,.hljs-link,.hljs-number,.hljs-regexp,.hljs-literal {  color: #6896ba;}.hljs-code,.hljs-selector-class {  color: #a6e22e;}.hljs-emphasis {  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-section,.hljs-attribute,.hljs-name,.hljs-variable {  color: #cb7832;}.hljs-params {  color: #b9b9b9;}.hljs-string {  color: #6a8759;}.hljs-subst,.hljs-type,.hljs-built_in,.hljs-builtin-name,.hljs-symbol,.hljs-selector-id,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-template-tag,.hljs-template-variable,.hljs-addition {  color: #e0c46c;}.hljs-comment,.hljs-deletion,.hljs-meta {  color: #7f7f7f;}]]></content>
-    </entry>
-    
-    <entry>
-      <title></title>
       <link href="/plugins/hljs/color-brewer.css"/>
       <url>/plugins/hljs/color-brewer.css</url>
       <content type="html"><![CDATA[/*Colorbrewer themeOriginal: https://github.com/mbostock/colorbrewer-theme (c) Mike Bostock <mike@ocks.org>Ported by Fabrício Tavares de Oliveira*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #fff;}.hljs,.hljs-subst {  color: #000;}.hljs-string,.hljs-meta,.hljs-symbol,.hljs-template-tag,.hljs-template-variable,.hljs-addition {  color: #756bb1;}.hljs-comment,.hljs-quote {  color: #636363;}.hljs-number,.hljs-regexp,.hljs-literal,.hljs-bullet,.hljs-link {  color: #31a354;}.hljs-deletion,.hljs-variable {  color: #88f;}.hljs-keyword,.hljs-selector-tag,.hljs-title,.hljs-section,.hljs-built_in,.hljs-doctag,.hljs-type,.hljs-tag,.hljs-name,.hljs-selector-id,.hljs-selector-class,.hljs-strong {  color: #3182bd;}.hljs-emphasis {  font-style: italic;}.hljs-attribute {  color: #e6550d;}</mike@ocks.org>]]></content>
@@ -1037,6 +1039,13 @@
       <link href="/plugins/hljs/codepen-embed.css"/>
       <url>/plugins/hljs/codepen-embed.css</url>
       <content type="html"><![CDATA[/*  codepen.io Embed Theme  Author: Justin Perry <http: github.com="" ourmaninamsterdam="">  Original theme - https://github.com/chriskempson/tomorrow-theme*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #222;  color: #fff;}.hljs-comment,.hljs-quote {  color: #777;}.hljs-variable,.hljs-template-variable,.hljs-tag,.hljs-regexp,.hljs-meta,.hljs-number,.hljs-built_in,.hljs-builtin-name,.hljs-literal,.hljs-params,.hljs-symbol,.hljs-bullet,.hljs-link,.hljs-deletion {  color: #ab875d;}.hljs-section,.hljs-title,.hljs-name,.hljs-selector-id,.hljs-selector-class,.hljs-type,.hljs-attribute {  color: #9b869b;}.hljs-string,.hljs-keyword,.hljs-selector-tag,.hljs-addition {  color: #8f9c6c;}.hljs-emphasis {  font-style: italic;}.hljs-strong {  font-weight: bold;}</http:>]]></content>
+    </entry>
+    
+    <entry>
+      <title></title>
+      <link href="/plugins/hljs/darcula.css"/>
+      <url>/plugins/hljs/darcula.css</url>
+      <content type="html"><![CDATA[/*Darcula color scheme from the JetBrains family of IDEs*/.hljs {  display: block;  overflow-x: auto;  padding: 0.5em;  background: #2b2b2b;}.hljs {  color: #bababa;}.hljs-strong,.hljs-emphasis {  color: #a8a8a2;}.hljs-bullet,.hljs-quote,.hljs-link,.hljs-number,.hljs-regexp,.hljs-literal {  color: #6896ba;}.hljs-code,.hljs-selector-class {  color: #a6e22e;}.hljs-emphasis {  font-style: italic;}.hljs-keyword,.hljs-selector-tag,.hljs-section,.hljs-attribute,.hljs-name,.hljs-variable {  color: #cb7832;}.hljs-params {  color: #b9b9b9;}.hljs-string {  color: #6a8759;}.hljs-subst,.hljs-type,.hljs-built_in,.hljs-builtin-name,.hljs-symbol,.hljs-selector-id,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-template-tag,.hljs-template-variable,.hljs-addition {  color: #e0c46c;}.hljs-comment,.hljs-deletion,.hljs-meta {  color: #7f7f7f;}]]></content>
     </entry>
     
   
