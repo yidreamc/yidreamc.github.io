@@ -7,7 +7,6 @@
   },
   "scripts": {
     "build": "gulp",
-    "rename": "node scripts/rename.js",
     "new": "hexo new post",
     "g": "hexo g",
     "s": "hexo s",

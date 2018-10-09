@@ -74,7 +74,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: diaspora
+theme: pln
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -94,7 +94,3 @@ feed:
   content_limit: 140
   content_limit_delim: ' '
   order_by: -date
-
-myhighlight:
-  enable: true
-  theme: atom-one-dark
