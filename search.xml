@@ -3,6 +3,15 @@
   
     
     <entry>
+      <title>es6 export default踩坑</title>
+      <link href="/2018/10/11/es6%20export%20default%E8%B8%A9%E5%9D%91/"/>
+      <url>/2018/10/11/es6%20export%20default%E8%B8%A9%E5%9D%91/</url>
+      <content type="html"><![CDATA[<p>先说一下遇到的问题</p><pre><code class="js">// a.jslet test = function() {}export default {    test}</code></pre><pre><code class="js">// b.jsimport { test } from &#39;a.js&#39;console.log(test)  // undefinedimport all from &#39;a.js&#39;console.log(all)  // {test: f}</code></pre><p>潜意识上觉得这种写法应该不会出现问题，公司项目中也是这么用的，并且也没有出现问题。</p><p>其实问题出在babel上  </p><pre><code class="js">export default {    test}</code></pre><p>经过babel转码之后</p><pre><code class="js">module.exports.default = {  test}</code></pre><p>中间多了一个default所以获取不到，公司项目中之所有可以获取到是因为引入了别的依赖进行处理了。<br>其实不引入依赖直接解决的办法有很多，以下任意一个都可以解决</p><pre><code class="js">// b.jsimport b from &#39;a.js&#39;;const { test } = b;</code></pre><pre><code class="js">// a.jsexport {    test}</code></pre><pre><code class="js">// a.jsconst a = {    test};export default a;</code></pre>]]></content>
+      
+      
+    </entry>
+    
+    <entry>
       <title>js防抖实现</title>
       <link href="/2018/09/21/js%E9%98%B2%E6%8A%96%E5%AE%9E%E7%8E%B0/"/>
       <url>/2018/09/21/js%E9%98%B2%E6%8A%96%E5%AE%9E%E7%8E%B0/</url>
