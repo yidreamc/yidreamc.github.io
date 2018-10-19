@@ -1,8 +1,7 @@
 ---
 title: js防抖实现
 date: 2018-9-21 16:04:12   
-tags:   
-cover: /img/cover/cover-2
+tags: 
 ---
 思路还是比较简单的，在进行一次操作之后，只有过了一定的时间才能进行下次操作，然后换一下this的作用域就实现了。
 ```
@@ -10,7 +9,6 @@ const debounce = (func, wait, immediate = true) => {
     let timeout, args, context, timestamp, result;
     const later = function () {
         const last = Date.parse(new Date()) - timestamp;
-        console.log('last',last);
         if (last < wait && last > 0) {
             timeout = setTimeout(later, wait - last);
         } else {
